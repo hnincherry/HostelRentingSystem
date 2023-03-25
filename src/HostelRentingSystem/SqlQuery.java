@@ -1,6 +1,8 @@
 package HostelRentingSystem;
 
 import java.sql.*;
+import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
  
 public class SqlQuery {
@@ -215,22 +217,24 @@ public class SqlQuery {
 	}
  
 	//Get Hostel Data
-	public String[] getHostelData() {
+	public ArrayList<String[]> getHostelData() {
 		try {
-			String[] str = new String[4];
+			ArrayList<String[]> hostelList = new ArrayList<String[]>();
 			ste = con.createStatement();
 			query = "select hostelname,smroomno,city,price from hostel,room where hostel.hostelid=room.hostelid";
 			rs = ste.executeQuery(query);
 			
 			while(rs.next()) {
+				String[] str = new String[4];
 				str[0] = rs.getString(1);//hostelname
 				str[1] = rs.getString(2);//smroomno
 				str[2] = rs.getString(3);//city
 				str[3] = rs.getString(4);//price
+				hostelList.add(str);
 				System.out.println("ResultSet => "+ rs.getString(2));
 			}
 			
-			return str;
+			return hostelList;
 		}catch(SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 			return null;

@@ -3,6 +3,7 @@ package HostelRentingSystem;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -57,22 +58,26 @@ public class Home extends JFrame {
 		contentPane.setLayout(null);
  
 		DefaultListModel<Hostel> listModel = new DefaultListModel<Hostel>();
-		
-		//ArrayList<Hostel> nameArr = new ArrayList<Hostel>();
-		String[] hostelArr = {"Rose","Jasmine","Myalay","Cherry","Khayay"};
-		// sample data like from db
-		// hostel name, room number, address - city, price
-		// [Hostel(), Hostel()]
-		String[] strQuery = new String[4];
-		String[] strData = new String[4];
+		ArrayList<String[]> strQuery = new ArrayList<String[]>();
 
 		strQuery = sqlquery.getHostelData();
-		for(int i=0;i<strQuery.length;i++) {
-			System.out.println("Hostel Data => "+i+strQuery[i] + "\n");			
+		ArrayList<Hostel> hostelArrList = new ArrayList<Hostel>();
+		for(int i=0;i<strQuery.size();i++) {
+			Hostel hostel = new Hostel();
+			String[] data = strQuery.get(i);
+			
+			hostel.setHostelName(data[0]);
+			hostel.setRoomNo(data[1]);
+			hostel.setAddress(data[2]);
+			hostel.setPrice(Integer.parseInt(data[3]));
+			System.out.println("Hostel Data => "+i+ hostel  + "\n");
+			hostelArrList.add(hostel);
+		}
+		
+		for(Hostel hostelData : hostelArrList) {
+			listModel.addElement(hostelData);
 		}
 			
-		Hostel hostel = new Hostel("Rose","R-0001","Sanchaung",50000);
-				
 		ImageIcon icon = new ImageIcon(getClass().getResource("/search-icon.png"));
 		
 		JComboBox comboBox = new JComboBox();
@@ -107,11 +112,7 @@ public class Home extends JFrame {
 	    
 	    JList<Hostel> hostelList = new JList<>(listModel);
 	    hostelList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-	    hostelList.setCellRenderer(new ListCellRenderer());
-	    
-	    for (int i = 0; i < 5; i++) {
-	        listModel.addElement(hostel);
-	    }
+	    hostelList.setCellRenderer(new ListCellRenderer());    
 	    hostelList.setModel(listModel);
 	    
 	    hostelList.addListSelectionListener(new ListSelectionListener() {
