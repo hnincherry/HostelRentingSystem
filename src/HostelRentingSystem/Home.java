@@ -11,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -37,6 +38,7 @@ public class Home extends JFrame {
 			public void run() {
 				try {
 					Home frame = new Home();
+					frame.setResizable(false);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -51,7 +53,7 @@ public class Home extends JFrame {
 	public Home() {
 		setTitle("Hostel Renting System");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 485, 405);
+		setBounds(100, 100, 600, 500);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -86,11 +88,11 @@ public class Home extends JFrame {
 				
 			}
 		});
-		comboBox.setBounds(10, 7, 217, 27);
+		comboBox.setBounds(10, 7, 319, 27);
 		contentPane.add(comboBox);
  
 		JButton btnSearch = new JButton(new ImageIcon((icon.getImage()).getScaledInstance(27, 25, java.awt.Image.SCALE_SMOOTH)));
-		btnSearch.setBounds(226, 6, 35, 28);
+		btnSearch.setBounds(327, 7, 35, 27);
 		contentPane.add(btnSearch);
  
 		JButton btnSignin = new JButton("Sign In");
@@ -99,15 +101,21 @@ public class Home extends JFrame {
 				
 			}
 		});
-		btnSignin.setBounds(271, 9, 87, 25);
+		btnSignin.setBounds(390, 8, 87, 25);
 		contentPane.add(btnSignin);
  
 		JButton btnSignup = new JButton("Sign Up");
-		btnSignup.setBounds(370, 9, 87, 25);
+		btnSignup.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RegisterType type = new RegisterType();
+				type.setVisible(true);
+			}
+		});
+		btnSignup.setBounds(487, 8, 87, 25);
 		contentPane.add(btnSignup);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 45, 449, 321);
+		scrollPane.setBounds(10, 45, 564, 405);
 		contentPane.add(scrollPane);
 	    
 	    JList<Hostel> hostelList = new JList<>(listModel);
@@ -121,7 +129,7 @@ public class Home extends JFrame {
 	    			JList<Hostel> list = (JList<Hostel>) e.getSource();
 	    			int selectedIndex = list.getSelectedIndex();
 	    			Hostel selectedHostel = list.getSelectedValue();
-	    			System.out.print("Selected Index => "+selectedIndex+"\nSelected Value => "+selectedHostel);
+	    			System.out.println("Selected Index => "+selectedIndex+"\nSelected Value => "+selectedHostel);
 	    		}
 	    	}
 	    });

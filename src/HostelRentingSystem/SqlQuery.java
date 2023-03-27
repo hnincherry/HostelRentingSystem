@@ -25,24 +25,9 @@ public class SqlQuery {
  
 	//Insert Query
 	public static boolean insertData(String tableName,String[] data) {
-		if(tableName.equals("brand")) {
-			query = "insert into brand values('"+data[0]+"','"+data[1]+"')";
-		} else if(tableName.equals("type")) {
-			query = "insert into type(typeId,typeName) values('"+data[0]+"','"+data[1]+"')";
-		} else if(tableName.equals("merchandise")) {
-			query = "insert into merchandise values('"+data[0]+"','"+data[1]+"','"+data[2]+"')";
-		} else if(tableName.equals("itemdetail")) {
-			query = "insert into itemdetail values('"+data[0]+"','"+data[1]+"','"+data[2]+"',0,'"+data[3]+"',0)";
-		} else if(tableName.equals("customer")) {
-			query = "insert into customer values('"+data[0]+"','"+data[1]+"','"+data[2]+"','"+data[3]+"','"+data[4]+"')";
-		} else if(tableName.equals("supplier")) {
-			query = "insert into supplier values('"+data[0]+"','"+data[1]+"','"+data[2]+"','"+data[3]+"','"+data[4]+"')";
-		} else if(tableName.equals("purchase")) {
-			int date = data[2].indexOf("(");
-			query = "insert into purchase values('"+data[0]+"','"+data[1]+"','"+data[2].substring(0,date)+"')";
-		} else if(tableName.equals("purchasedetail")) {
-			query = "insert into purchasedetail values('"+data[0]+"','"+data[1]+"','"+data[2]+"','"+data[3]+"')";
-		}
+		if(tableName.equals("hostel")) {
+			query = "insert into hostel(hostelname,buildingno,roomno,smroomcount,state,city,street,gendertype) values('"+data[0]+"','"+data[1]+"','"+data[2]+"',"+data[3]+",'"+data[4]+"','"+data[5]+"','"+data[6]+"','"+data[7]+"')";
+		} 
 		try {
 			ste = con.createStatement();
 			if(ste.executeUpdate(query) == 1) {

@@ -53,6 +53,6 @@ class Hostel {
     
     @Override
     public String toString() {
-        return hostelName+"/"+roomNo+"/"+address+"/"+price;
+        return "<html><body>"+hostelName+"<br>"+roomNo+"<br>"+address+"<br>"+price+"</body></html>";
     }
 }
