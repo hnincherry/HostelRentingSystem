@@ -150,7 +150,7 @@ public class RoomRegistration {
 		frame.getContentPane().add(btnConfirm, BorderLayout.SOUTH);
         frame.getContentPane().add(panel);
         frame.setResizable(false);
-        frame.setBounds(100, 100, 600, 500);
+        frame.setBounds(380, 120, 600, 500);
         frame.pack();
         frame.setVisible(true);
 	}

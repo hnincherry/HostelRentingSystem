@@ -49,7 +49,7 @@ public class HostelRegistration extends JDialog {
 	public HostelRegistration() {
 		getContentPane().setBackground(new Color(192, 192, 192));
 		setTitle("Hostel Registration Form");
-		setBounds(100, 100, 600, 500);
+		setBounds(380, 120, 600, 500);
 		getContentPane().setLayout(null);
 		
 		JLabel lblNew = new JLabel("Hostel Name");

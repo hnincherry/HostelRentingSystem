@@ -53,7 +53,7 @@ public class Home extends JFrame {
 	public Home() {
 		setTitle("Hostel Renting System");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 600, 500);
+		setBounds(380, 120, 600, 500);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -98,7 +98,8 @@ public class Home extends JFrame {
 		JButton btnSignin = new JButton("Sign In");
 		btnSignin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				SignIn signin = new SignIn();
+				signin.setVisible(true);
 			}
 		});
 		btnSignin.setBounds(390, 8, 87, 25);
@@ -130,7 +131,8 @@ public class Home extends JFrame {
 	    			int selectedIndex = list.getSelectedIndex();
 	    			Hostel selectedHostel = list.getSelectedValue();
 	    			System.out.println("Selected Index => "+selectedIndex+"\nSelected Value => "+selectedHostel);
-	    		}
+	    			HostelDetail detail = new HostelDetail();
+	    			detail.setVisible(true);	    		}
 	    	}
 	    });
 		scrollPane.setViewportView(hostelList);

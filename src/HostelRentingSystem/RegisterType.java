@@ -32,7 +32,7 @@ public class RegisterType extends JDialog {
 	 */
 	public RegisterType() {
 		setTitle("Choose Register Type");
-		setBounds(100, 100, 600, 500);
+		setBounds(380, 120, 600, 500);
 		getContentPane().setLayout(null);
 		
 		JLabel lblOwner = new JLabel("Owner");
