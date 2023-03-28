@@ -80,12 +80,12 @@ public class SignIn extends JDialog {
 		panel.add(lblNewLabel_1);
 		
 		txtPhone = new JTextField();
-		txtPhone.setBounds(312, 114, 215, 34);
+		txtPhone.setBounds(312, 114, 215, 29);
 		panel.add(txtPhone);
 		txtPhone.setColumns(10);
 		
 		txtPass = new JPasswordField();
-		txtPass.setBounds(312, 182, 215, 36);
+		txtPass.setBounds(312, 179, 215, 29);
 		panel.add(txtPass);
 		
 		btnSingin = new JButton("Sign In");
