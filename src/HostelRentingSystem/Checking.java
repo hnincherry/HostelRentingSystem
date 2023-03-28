@@ -14,6 +14,7 @@ public static boolean IsValidName(String str)
         return false;
     return true;
 }
+
 public static boolean IsNull(String str)
 {
     if(str.trim().equals("")||str.trim().equals(null))
@@ -21,6 +22,7 @@ public static boolean IsNull(String str)
     else
         return false;
 }
+
 public static boolean IsLetter(String str)
 {
     boolean b = false ;
@@ -31,6 +33,15 @@ public static boolean IsLetter(String str)
     }
   return b;
 }
+
+public static boolean IsPhoneNo(String str) {
+	if(str.length() <= 11) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 public static boolean IsEformat(String str)
 {
     boolean b = false ;

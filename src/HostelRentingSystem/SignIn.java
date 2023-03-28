@@ -11,12 +11,15 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import java.awt.Font;
 import java.awt.EventQueue;
 import java.awt.Image;
 import javax.swing.border.EtchedBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class SignIn extends JDialog {
 
@@ -89,6 +92,15 @@ public class SignIn extends JDialog {
 		panel.add(txtPass);
 		
 		btnSingin = new JButton("Sign In");
+		btnSingin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(Checking.IsNull(txtPhone.getText()) || Checking.IsLetter(txtPhone.getText()) || !Checking.IsPhoneNo(txtPhone.getText())) {
+					JOptionPane.showMessageDialog(null, "You must enter valid Phone Number");
+					txtPhone.requestFocus();
+					txtPhone.selectAll();
+				}
+			}
+		});
 		btnSingin.setBounds(228, 266, 97, 36);
 		panel.add(btnSingin);
 		
