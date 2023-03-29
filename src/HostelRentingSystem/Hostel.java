@@ -53,6 +53,6 @@ class Hostel {
     
     @Override
     public String toString() {
-        return "<html><h4>Hostel Name = "+hostelName+"</h4><h4>Room No = "+roomNo+"</h4>"+address+"<br>"+price+"</html>";
+        return "<html><h4>Hostel Name = "+hostelName+"</h4><h4>Room No = "+roomNo+"</h4><h4>Address ="+address+"</h4><h4>Price ="+price+"</h4></html>";
     }
 }

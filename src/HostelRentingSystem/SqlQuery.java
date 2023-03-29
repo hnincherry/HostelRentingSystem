@@ -26,8 +26,10 @@ public class SqlQuery {
 	//Insert Query
 	public static boolean insertData(String tableName,String[] data) {
 		if(tableName.equals("hostel")) {
-			query = "insert into hostel(hostelname,buildingno,roomno,smroomcount,state,city,street,gendertype) values('"+data[0]+"','"+data[1]+"','"+data[2]+"',"+data[3]+",'"+data[4]+"','"+data[5]+"','"+data[6]+"','"+data[7]+"')";
-		} 
+			query = "insert into hostel(hostelname,buildingno,roomno,smroomcount,state,city,street,userid,gendertype) values('"+data[0]+"','"+data[1]+"','"+data[2]+"',"+data[3]+",'"+data[4]+"','"+data[5]+"','"+data[6]+"',"+data[7]+",'"+data[8]+"')";
+		} else if(tableName.equals("room")) {
+			query = "insert into room(smroomno,available,price,hostelid) values('"+data[0]+"',"+true+","+data[1]+","+data[2]+")";
+		}
 		try {
 			ste = con.createStatement();
 			if(ste.executeUpdate(query) == 1) {
@@ -142,6 +144,24 @@ public class SqlQuery {
 		}
 	}
  
+	//Get Hostel ID
+	public String getId(String tableName) {
+		try {
+			String id;
+			ste = con.createStatement();
+			if(tableName.equals("hostel")) {
+				query = "select hostelid from hostel";
+			}
+			rs = ste.executeQuery(query);
+			rs.last();
+			id = rs.getString(1);
+			return id;
+		}catch(SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+			return null;
+		}
+	}
+	
 	//Get Merchandise Data
 	public String[] getMerchandiseData(String merId) {
 		try {
@@ -225,4 +245,6 @@ public class SqlQuery {
 			return null;
 		}
 	}
+	
+
 }

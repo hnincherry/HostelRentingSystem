@@ -127,11 +127,20 @@ public class HostelRegistration extends JDialog {
 					JOptionPane.showMessageDialog(null, "You must Choose Gender Type");
 					cboGender.requestFocus();
 				} else {
-					new RoomRegistration(txtRoomCount.getText());
+					String hostelName = txtHostelName.getText();
+					String buildingNo = txtBuildingNo.getText();
+					String roomNo = txtMainRoom.getText();
+					String roomCount = txtRoomCount.getText();
+					String state = txtState.getText();
+					String city = txtCity.getText();
+					String street = txtStreet.getText();
+					String gender = (String) cboGender.getSelectedItem();
+					new RoomRegistration(hostelName,buildingNo,roomNo,roomCount,state,city,street,gender);
+					clear();
 				} 
 			}
 		});
-		btnNext.setBounds(232, 385, 102, 42);
+		btnNext.setBounds(235, 385, 102, 42);
 		getContentPane().add(btnNext);
 		
 		txtHostelName = new JTextField();
@@ -173,5 +182,36 @@ public class HostelRegistration extends JDialog {
 		cboGender.setModel(new DefaultComboBoxModel(new String[] {"---Select---", "Male", "Female"}));
 		cboGender.setBounds(235, 320, 319, 25);
 		getContentPane().add(cboGender);
+		
+		JButton btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clear();
+			}
+		});
+		btnCancel.setBounds(452, 385, 102, 42);
+		getContentPane().add(btnCancel);
+		
+		JButton btnClose = new JButton("Close");
+		btnClose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?","Confirm Existing",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+					dispose();
+				}
+			}
+		});
+		btnClose.setBounds(30, 385, 102, 42);
+		getContentPane().add(btnClose);
+	}
+	
+	public void clear() {
+		txtHostelName.setText("");
+		txtBuildingNo.setText("");
+		txtMainRoom.setText("");
+		txtRoomCount.setText("");
+		txtState.setText("");
+		txtCity.setText("");
+		txtStreet.setText("");
+		cboGender.setSelectedIndex(0);
 	}
 }

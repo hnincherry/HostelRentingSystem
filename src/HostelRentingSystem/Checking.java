@@ -23,23 +23,36 @@ public static boolean IsNull(String str)
         return false;
 }
 
-public static boolean IsLetter(String str)
-{
-    boolean b = false ;
-    for(int i=0 ; i<str.length() ; i++)
-    {
-        if(Character.isLetter(str.charAt(i)))b = true ;
-        else { b = false ; break ;}
-    }
-  return b;
-}
-
 public static boolean IsPhoneNo(String str) {
 	if(str.length() <= 11) {
 		return true;
 	} else {
 		return false;
 	}
+}
+
+public static boolean IsLetter(String str) {
+	boolean bool = false;
+	for(int i=0;i<str.length();i++) {
+		if(Character.isLetter(str.charAt(i))) {
+			bool = true;
+		} else {
+			bool = false;
+		}
+	}
+	return bool;
+}
+
+public static boolean IsAllDigit(String str) {
+	boolean bool = false;
+	for(int i=0;i<str.length();i++) {
+		if(Character.isDigit(str.charAt(i))) {
+			bool = true;
+		} else {
+			bool = false;
+		}
+	}
+	return bool;
 }
 
 public static boolean IsEformat(String str)
@@ -61,17 +74,19 @@ public static boolean IsEformat(String str)
     else
         return b ;
    }
-public static boolean IsAllDigit(String str)
-{
-    boolean b = false ;
-    for(int i = 0 ; i<str.length() ; i++)
-    {
-        if(Character.isDigit(str.charAt(i)))b=true;
-        else { b=false ; break ;}
 
-    }
-    return b;
-}
+//public static boolean IsAllDigit(String str)
+//{
+//    boolean b = false ;
+//    for(int i = 0 ; i<str.length() ; i++)
+//    {
+//        if(Character.isDigit(str.charAt(i)))b=true;
+//        else { b=false ; break ;}
+//
+//    }
+//    return b;
+//}
+
 public static boolean IsContain(char c, String str)
 {
     for(int i = 0 ; i<str.length() ; i++)
