@@ -73,15 +73,7 @@ public class RoomRegistration {
 		JButton btnConfirm = new JButton("Confirm");
 		btnConfirm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				if(Checking.IsNull(txtRoomNo.getText()) || Checking.IsLetter(txtRoomNo.getText())) {
-//					JOptionPane.showMessageDialog(null, "You must enter valid Room Number");
-//					txtRoomNo.requestFocus();
-//					txtRoomNo.selectAll();
-//				} else if(Checking.IsNull(txtPrice.getText()) || !Checking.IsAllDigit(txtPrice.getText())) {
-//					JOptionPane.showMessageDialog(null, "You must enter valid Price");
-//					txtPrice.requestFocus();
-//					txtPrice.selectAll();
-//				} else {
+//				 else {
 					String[] hostelData = new String[9];
 					String[] roomData = new String[3];
 					
@@ -109,8 +101,19 @@ public class RoomRegistration {
 						for(int k=0;k<count;k++) {
 							String roomNo = txtRoomArray.get(k).getText();
 							String price = txtPriceArray.get(k).getText();
-							String[] room = {roomNo, price, hostelId}; // ["Room No", "Price", "HostelID"]
-							roomList[k] = room; 
+//							if(Checking.IsNull(roomNo) || Checking.IsLetter(roomNo)) {
+//								JOptionPane.showMessageDialog(null, "You must enter valid Room Number");
+////								txtRoomNo.requestFocus();
+////								txtRoomNo.selectAll();
+//							} else if(Checking.IsNull(price) || !Checking.IsAllDigit(price)) {
+//								JOptionPane.showMessageDialog(null, "You must enter valid Price");
+////								txtPrice.requestFocus();
+////								txtPrice.selectAll();
+//							} else {
+								String[] room = {roomNo, price, hostelId}; // ["Room No", "Price", "HostelID"]
+								roomList[k] = room;  
+//							}
+							
 						}
 						System.out.println("Room List => "+Arrays.toString(roomList));
 						for(String[] data: roomList) {

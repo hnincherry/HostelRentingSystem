@@ -24,7 +24,23 @@ public static boolean IsNull(String str)
 }
 
 public static boolean IsPhoneNo(String str) {
-	if(str.length() <= 11) {
+	if(str.length() <= 12) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+public static boolean IsPassNo(String str) {
+	if(str.length() >= 8) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+public static boolean IsNrc(String str) {
+	if(str.length() == 6) {
 		return true;
 	} else {
 		return false;

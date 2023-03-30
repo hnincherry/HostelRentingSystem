@@ -31,7 +31,9 @@ public class SignIn extends JDialog {
 	private JButton btnSingin;
 	private JLabel lbllogo;
 	private JPanel panel;
-
+	SqlQuery sqlquery = new SqlQuery();
+	String[] queryData = new String[3];
+	
 	/**
 	 * Launch the application.
 	
@@ -47,6 +49,7 @@ public class SignIn extends JDialog {
 			SignIn dialog = new SignIn();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
+			dialog.setResizable(false);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -98,6 +101,12 @@ public class SignIn extends JDialog {
 					JOptionPane.showMessageDialog(null, "You must enter valid Phone Number");
 					txtPhone.requestFocus();
 					txtPhone.selectAll();
+				} else if(!Checking.IsPassNo(txtPass.getText())) {			
+					JOptionPane.showMessageDialog(null, "Your password should be at least 8");
+					txtPass.requestFocus();
+					txtPass.selectAll();				
+				} else {
+					login();
 				}
 			}
 		});
@@ -110,12 +119,38 @@ public class SignIn extends JDialog {
 		lbllogo.setBounds(242, 43, 65, 66);
 		panel.add(lbllogo);
 		
-	
+		
 	}
 
 	private int EtchedBorder(Font font) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	public void login() {
+		String phoneno = txtPhone.getText();
+		String password = txtPass.getText();
+		queryData = sqlquery.getUserInfo(phoneno,password);
+		
+		//System.out.println(queryData[0]+"\n"+queryData[1]+"\n"+queryData[2]);
+		if(queryData[0] != null && queryData[1] != null) {
+			System.out.println("User data already exist");
+			if(queryData[2].equals("2")) {
+				Seeker seeker = new Seeker();
+				seeker.setVisible(true);
+				setVisible(false);
+			} else if(queryData[2].equals("3")) {
+				Owner owner = new Owner();
+				owner.setVisible(true);
+				setVisible(false);
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "Please Sign Up");
+			txtPhone.requestFocus();
+			txtPass.requestFocus();
+			txtPhone.selectAll();
+			txtPass.selectAll();		
+		}
 	}
 	
 }

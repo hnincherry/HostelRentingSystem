@@ -29,6 +29,8 @@ public class SqlQuery {
 			query = "insert into hostel(hostelname,buildingno,roomno,smroomcount,state,city,street,userid,gendertype) values('"+data[0]+"','"+data[1]+"','"+data[2]+"',"+data[3]+",'"+data[4]+"','"+data[5]+"','"+data[6]+"',"+data[7]+",'"+data[8]+"')";
 		} else if(tableName.equals("room")) {
 			query = "insert into room(smroomno,available,price,hostelid) values('"+data[0]+"',"+true+","+data[1]+","+data[2]+")";
+		} else if(tableName.equals("user")) {
+			query = "insert into user(username,phoneno,nrc,state,city,street,password,roleid,status,gender) values('"+data[0]+"','"+data[1]+"','"+data[2]+"','"+data[3]+"','"+data[4]+"','"+data[5]+"','"+data[6]+"',"+data[7]+",'"+data[8]+"','"+data[9]+"')";
 		}
 		try {
 			ste = con.createStatement();
@@ -161,42 +163,6 @@ public class SqlQuery {
 			return null;
 		}
 	}
-	
-	//Get Merchandise Data
-	public String[] getMerchandiseData(String merId) {
-		try {
-			String[] str = new String[2];
-			ste = con.createStatement();
-			query = "select * from merchandise where merId='"+merId+"'";
-			rs = ste.executeQuery(query);
-			rs.next();
-			str[0] = rs.getString(2);//brandId
-			str[1] = rs.getString(3);//typeID
-			return str;
-		}catch(SQLException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage());
-			return null;
-		}
-	}
- 
-	//Get Supplier Data
-	public String[] getSupplierData(String supId) {
-		try {
-			String[] str = new String[4];
-			ste = con.createStatement();
-			query = "select * from supplier where supplierId='"+supId+"'";
-			rs = ste.executeQuery(query);
-			rs.next();
-			str[0] = rs.getString(2);
-			str[1] = rs.getString(3);
-			str[2] = rs.getString(4);
-			str[3] = rs.getString(5);
-			return str;
-		}catch(SQLException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage());
-			return null;
-		}
-	}
  
 	//Get Item Data
 	public String[] getItemData(String itemId) {
@@ -221,6 +187,34 @@ public class SqlQuery {
 		}
 	}
  
+	//Get User Info
+		public String[] getUserInfo(String phoneNo,String password) {
+			try {
+				String[] str = new String[3];
+				ste = con.createStatement();
+				query = "select * from user where phoneno='"+phoneNo+"' and password='"+password+"' and status='active'";
+				rs = ste.executeQuery(query);
+				
+				if(rs.next()) {
+					//str[0] = rs.getString(1);//userId
+					//str[1] = rs.getString(2);//userName
+					str[0] = rs.getString(3);//phoneNo
+					//str[3] = rs.getString(4);//nrc
+					//str[4] = rs.getString(5);//state
+					//str[5] = rs.getString(6);//city
+					//str[6] = rs.getString(7);//street
+					str[1] = rs.getString(8);//password
+					str[2] = rs.getString(9);//roleid
+					//str[9] = rs.getString(10);//status
+					//str[10] = rs.getString(11);//gender
+				}
+				return str;
+			}catch(SQLException e) {
+				JOptionPane.showMessageDialog(null, e.getMessage());
+				return null;
+			}
+		}
+		
 	//Get Hostel Data
 	public ArrayList<String[]> getHostelData() {
 		try {
