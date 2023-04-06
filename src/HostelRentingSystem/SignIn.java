@@ -44,23 +44,24 @@ public class SignIn extends JDialog {
 	}
 	 * 
 	 */
-	public static void main(String[] args) {
-		try {
-			SignIn dialog = new SignIn();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-			dialog.setResizable(false);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	public static void main(String[] args) {
+//		try {
+//			SignIn dialog = new SignIn();
+//			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+//			dialog.setVisible(true);
+//			dialog.setResizable(false);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	/**
 	 * Create the dialog.
 	 */
-	public SignIn() {
+	public SignIn(String route,String ownername,String roomno,int price,String ownerPhone,String roomId) {
 		setTitle("Sign In");
 		setBounds(380, 120, 600, 500);
+		setResizable(false);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -106,7 +107,35 @@ public class SignIn extends JDialog {
 					txtPass.requestFocus();
 					txtPass.selectAll();				
 				} else {
-					login();
+					String phoneno = txtPhone.getText();
+					String password = txtPass.getText();
+					queryData = sqlquery.getUserInfo(phoneno,password);
+					
+					//System.out.println(queryData[0]+"\n"+queryData[1]+"\n"+queryData[2]);
+					if(queryData[0] != null && queryData[1] != null) {
+						System.out.println("User data already exist");
+						if(queryData[2].equals("2")) {
+							if(route.equals("rent")) {
+								Renting renting = new Renting(queryData[4],ownername,roomno,price,phoneno,ownerPhone,roomId);
+								renting.setVisible(true);
+							} else {
+								Seeker seeker = new Seeker(phoneno,password);
+								seeker.setVisible(true);
+							}
+							setVisible(false);
+						} else if(queryData[2].equals("3")) {
+							//send owner user id to hostel
+							HostelRegistration register = new HostelRegistration(queryData[3]);
+							register.setVisible(true);
+							setVisible(false);
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "Please Sign Up");
+						txtPhone.requestFocus();
+						txtPass.requestFocus();
+						txtPhone.selectAll();
+						txtPass.selectAll();		
+					}
 				}
 			}
 		});
@@ -117,40 +146,13 @@ public class SignIn extends JDialog {
 		Image img=new ImageIcon(this.getClass().getResource("/logo.png")).getImage();
 		lbllogo.setIcon(new ImageIcon(img));
 		lbllogo.setBounds(242, 43, 65, 66);
-		panel.add(lbllogo);
-		
+		panel.add(lbllogo);	
 		
 	}
 
 	private int EtchedBorder(Font font) {
 		// TODO Auto-generated method stub
 		return 0;
-	}
-	
-	public void login() {
-		String phoneno = txtPhone.getText();
-		String password = txtPass.getText();
-		queryData = sqlquery.getUserInfo(phoneno,password);
-		
-		//System.out.println(queryData[0]+"\n"+queryData[1]+"\n"+queryData[2]);
-		if(queryData[0] != null && queryData[1] != null) {
-			System.out.println("User data already exist");
-			if(queryData[2].equals("2")) {
-				Seeker seeker = new Seeker();
-				seeker.setVisible(true);
-				setVisible(false);
-			} else if(queryData[2].equals("3")) {
-				Owner owner = new Owner();
-				owner.setVisible(true);
-				setVisible(false);
-			}
-		} else {
-			JOptionPane.showMessageDialog(null, "Please Sign Up");
-			txtPhone.requestFocus();
-			txtPass.requestFocus();
-			txtPhone.selectAll();
-			txtPass.selectAll();		
-		}
 	}
 	
 }

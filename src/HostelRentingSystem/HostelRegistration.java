@@ -33,20 +33,20 @@ public class HostelRegistration extends JDialog {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		try {
-			HostelRegistration dialog = new HostelRegistration();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	public static void main(String[] args) {
+//		try {
+//			HostelRegistration dialog = new HostelRegistration();
+//			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+//			dialog.setVisible(true);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	/**
 	 * Create the dialog.
 	 */
-	public HostelRegistration() {
+	public HostelRegistration(String userId) {
 		getContentPane().setBackground(new Color(192, 192, 192));
 		setTitle("Hostel Registration Form");
 		setBounds(380, 120, 600, 500);
@@ -92,6 +92,7 @@ public class HostelRegistration extends JDialog {
 		lblGenderType.setBounds(30, 315, 102, 30);
 		getContentPane().add(lblGenderType);
 		
+		System.out.println("User ID in Hostel Registration=> " + userId);
 		JButton btnNext = new JButton("Next");
 		btnNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -135,12 +136,12 @@ public class HostelRegistration extends JDialog {
 					String city = txtCity.getText();
 					String street = txtStreet.getText();
 					String gender = (String) cboGender.getSelectedItem();
-					new RoomRegistration(hostelName,buildingNo,roomNo,roomCount,state,city,street,gender);
+					new RoomRegistration(hostelName,buildingNo,roomNo,roomCount,state,city,street,gender,userId);
 					clear();
 				} 
 			}
 		});
-		btnNext.setBounds(235, 385, 102, 42);
+		btnNext.setBounds(184, 385, 102, 42);
 		getContentPane().add(btnNext);
 		
 		txtHostelName = new JTextField();
@@ -189,7 +190,7 @@ public class HostelRegistration extends JDialog {
 				clear();
 			}
 		});
-		btnCancel.setBounds(452, 385, 102, 42);
+		btnCancel.setBounds(326, 385, 102, 42);
 		getContentPane().add(btnCancel);
 		
 		JButton btnClose = new JButton("Close");
@@ -202,6 +203,16 @@ public class HostelRegistration extends JDialog {
 		});
 		btnClose.setBounds(30, 385, 102, 42);
 		getContentPane().add(btnClose);
+		
+		JButton btnSkip = new JButton("Skip");
+		btnSkip.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Owner owner = new Owner();
+				owner.setVisible(true);
+			}
+		});
+		btnSkip.setBounds(451, 385, 102, 42);
+		getContentPane().add(btnSkip);
 	}
 	
 	public void clear() {

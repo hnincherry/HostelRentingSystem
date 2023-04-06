@@ -30,6 +30,9 @@ public class Home extends JFrame {
  
 	private JPanel contentPane;
 	SqlQuery sqlquery = new SqlQuery();
+	String hostelName,roomno,address,genderType,ownerName,ownerPhone,roomId;
+	int price;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -61,7 +64,7 @@ public class Home extends JFrame {
  
 		DefaultListModel<Hostel> listModel = new DefaultListModel<Hostel>();
 		ArrayList<String[]> strQuery = new ArrayList<String[]>();
-
+		
 		strQuery = sqlquery.getHostelData();
 		ArrayList<Hostel> hostelArrList = new ArrayList<Hostel>();
 		for(int i=0;i<strQuery.size();i++) {
@@ -72,8 +75,13 @@ public class Home extends JFrame {
 			hostel.setRoomNo(data[1]);
 			hostel.setAddress(data[2]);
 			hostel.setPrice(Integer.parseInt(data[3]));
-			System.out.println("Hostel Data => "+i+ hostel  + "\n");
+			hostel.setGenderType(data[4]);
+			hostel.setOwnerName(data[5]);
+			hostel.setOwnerPhone(data[6]);
+			hostel.setRoomId(data[7]);
+			//System.out.println("Hostel Data => "+i+ hostel  + "\n");
 			hostelArrList.add(hostel);
+			
 		}
 		
 		for(Hostel hostelData : hostelArrList) {
@@ -98,7 +106,7 @@ public class Home extends JFrame {
 		JButton btnSignin = new JButton("Sign In");
 		btnSignin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SignIn signin = new SignIn();
+				SignIn signin = new SignIn("","","",0,"","");
 				signin.setVisible(true);
 			}
 		});
@@ -129,10 +137,22 @@ public class Home extends JFrame {
 	    		if(!e.getValueIsAdjusting()) {
 	    			JList<Hostel> list = (JList<Hostel>) e.getSource();
 	    			int selectedIndex = list.getSelectedIndex();
-	    			Hostel selectedHostel = list.getSelectedValue();
-	    			System.out.println("Selected Index => "+selectedIndex+"\nSelected Value => "+selectedHostel);
-	    			HostelDetail detail = new HostelDetail();
-	    			detail.setVisible(true);	    		}
+	    			Hostel selectedHostel = hostelArrList.get(selectedIndex);
+	    			
+	    			hostelName = selectedHostel.getHostelName();
+	    			roomno = selectedHostel.getRoomNo();
+	    			address = selectedHostel.getAddress();
+	    			genderType = selectedHostel.getGenderType();
+	    			price = selectedHostel.getPrice();
+	    			ownerName = selectedHostel.getOwnerName();
+	    			ownerPhone = selectedHostel.getOwnerPhone();
+	    			roomId = selectedHostel.getRoomId();
+	    			
+	    			//System.out.println("Selected Hostel => "+hostelName+"/"+roomno+"/"+address+"/"+price);
+	    			//System.out.println("Selected Index => "+selectedIndex+"\nSelected Value => "+selectedHostel);
+	    			HostelDetail detail = new HostelDetail(hostelName,roomno,address,genderType,price,ownerName,ownerPhone,roomId);
+	    			detail.setVisible(true);	    		
+	    		}
 	    	}
 	    });
 		scrollPane.setViewportView(hostelList);

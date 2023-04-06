@@ -34,7 +34,7 @@ public class RoomRegistration {
 	ArrayList<JTextField> txtRoomArray = new ArrayList<JTextField>();
 	ArrayList<JTextField> txtPriceArray = new ArrayList<JTextField>();
 	
-	public RoomRegistration(String hostelName,String buildingNo,String roomNo,String roomCount,String state,String city,String street,String gender) {
+	public RoomRegistration(String hostelName,String buildingNo,String roomNo,String roomCount,String state,String city,String street,String gender,String userId) {
 		JFrame frame = new JFrame("Room Registration");
         JPanel panel = new JPanel(new GridLayout(0, 4,10,10));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -84,7 +84,7 @@ public class RoomRegistration {
 					hostelData[4] = state;
 					hostelData[5] = city;
 					hostelData[6] = street;
-					hostelData[7] = "3";
+					hostelData[7] = userId;
 					hostelData[8] = gender;
 					boolean save = sqlquery.insertData("hostel", hostelData);
 					String hostelId = sqlquery.getId("hostel");
