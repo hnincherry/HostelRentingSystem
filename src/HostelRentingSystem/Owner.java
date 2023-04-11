@@ -63,10 +63,10 @@ public class Owner extends JDialog {
         	@Override
         	public void mouseClicked(MouseEvent e) {
         		int row = tblHostel.getSelectedRow();
-//        		if(JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?","Confirm Existing",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-//					dispose();
-//					
-//				}
+        		if(JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?","Confirm Existing",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+					dispose();
+					
+				}
         	}
         });
         scrollPane.setViewportView(tblHostel);
