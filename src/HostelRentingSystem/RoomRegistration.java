@@ -86,9 +86,7 @@ public class RoomRegistration {
 					hostelData[6] = street;
 					hostelData[7] = userId;
 					hostelData[8] = gender;
-					
-					
-					
+										
 					String[][] roomList = new String[count][3];
 					// check validation
 					for(int k=0;k<count;k++) {
@@ -116,6 +114,27 @@ public class RoomRegistration {
 						else {
 							isRoomValid = true;
 						}			
+					}
+					
+					// check duplicate room
+					for(int k=0;k<count - 1;k++) {
+						String roomNo = txtRoomArray.get(k).getText();
+						
+						for(int j=k+1;j<count;j++) {
+							String nextRoomNo = txtRoomArray.get(j).getText();
+							if(roomNo.equals(nextRoomNo)) {
+								JOptionPane.showMessageDialog(null, "Duplicate Room Number!!");
+								isRoomValid = false;
+								break;
+							}
+							else {
+								isRoomValid = true;
+							}	
+						}
+						if(!isRoomValid) {
+							break;
+						}
+							
 					}
 					
 					// insert data
