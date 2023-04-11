@@ -79,15 +79,16 @@ public class HostelDetail extends JDialog {
 		lblGenderType.setBounds(30, 315, 102, 30);
 		getContentPane().add(lblGenderType);
 		
-		JButton btnBook = new JButton("Rent");
-		btnBook.addActionListener(new ActionListener() {
+		JButton btnRent = new JButton("Rent");
+		btnRent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				SignIn signin = new SignIn("rent",ownerName,roomno,price,ownerPhone,roomId);
 				signin.setVisible(true);
+				setVisible(false);
 			}
 		});
-		btnBook.setBounds(256, 385, 102, 42);
-		getContentPane().add(btnBook);
+		btnRent.setBounds(256, 385, 102, 42);
+		getContentPane().add(btnRent);
 		
 		JButton btnClose = new JButton("Close");
 		btnClose.addActionListener(new ActionListener() {

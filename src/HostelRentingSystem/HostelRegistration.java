@@ -207,7 +207,7 @@ public class HostelRegistration extends JDialog {
 		JButton btnSkip = new JButton("Skip");
 		btnSkip.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Owner owner = new Owner();
+				Owner owner = new Owner(userId);
 				owner.setVisible(true);
 			}
 		});

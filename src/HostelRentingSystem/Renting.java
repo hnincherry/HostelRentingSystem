@@ -232,9 +232,9 @@ public class Renting extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				if(JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?","Confirm Existing",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
 					dispose();
-					String password = sqlquery.getPassword(seekerPhone);
-					Seeker seeker = new Seeker(seekerPhone,password);
-					seeker.setVisible(true);
+//					String password = sqlquery.getPassword(seekerPhone);
+//					Seeker seeker = new Seeker(seekerPhone,password);
+//					seeker.setVisible(true);
 				}
 			}
 		});

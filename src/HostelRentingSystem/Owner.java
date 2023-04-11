@@ -4,6 +4,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.SwingConstants;
@@ -12,6 +19,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Owner extends JDialog {
 	private JTable tblHostel;
@@ -19,14 +28,21 @@ public class Owner extends JDialog {
 	private JTable tblRent;
 	private JTable tblFree;
 	DefaultTableModel tblAllModel = new DefaultTableModel();
-	DefaultTableModel tblBookModel = new DefaultTableModel();
 	DefaultTableModel tblRentModel = new DefaultTableModel();
 	DefaultTableModel tblFreeModel = new DefaultTableModel();
-
-    public Owner() {
+	DBConnection connect = new DBConnection();
+	Connection con = null;
+	
+    public Owner(String userId) {
         setTitle("Owner Panel");
         setSize(800, 500);
-
+        try {
+			con = connect.getConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
         JTabbedPane tabbedPane = new JTabbedPane();
 
         JPanel panel1 = new JPanel();
@@ -43,6 +59,16 @@ public class Owner extends JDialog {
         panel1.add(scrollPane);
         
         tblHostel = new JTable();
+        tblHostel.addMouseListener(new MouseAdapter() {
+        	@Override
+        	public void mouseClicked(MouseEvent e) {
+        		int row = tblHostel.getSelectedRow();
+//        		if(JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?","Confirm Existing",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+//					dispose();
+//					
+//				}
+        	}
+        });
         scrollPane.setViewportView(tblHostel);
         
         tabbedPane.addTab("Rent", null, panel3, "Rent");
@@ -72,6 +98,10 @@ public class Owner extends JDialog {
         createAllTable();
         createRentTable();
         createFreeTable();
+        
+        fillHostelData(userId);
+        fillRentData(userId);
+        fillFreeData(userId);
     }
 
     public void createAllTable() {
@@ -82,14 +112,16 @@ public class Owner extends JDialog {
     	tblAllModel.addColumn("City");
     	tblAllModel.addColumn("Street");
     	tblAllModel.addColumn("Gender Type");
+    	tblAllModel.addColumn("Action");
 		tblHostel.setModel(tblAllModel);
-		setColumnWidth(0,40,tblHostel);
-		setColumnWidth(0,40,tblHostel);
-		setColumnWidth(2,40,tblHostel);
+		setColumnWidth(0,50,tblHostel);
+		setColumnWidth(1,30,tblHostel);
+		setColumnWidth(2,30,tblHostel);
 		setColumnWidth(3,40,tblHostel);
 		setColumnWidth(4,20,tblHostel);
 		setColumnWidth(5,50,tblHostel);
-		setColumnWidth(5,50,tblHostel);
+		setColumnWidth(6,40,tblHostel);
+		setColumnWidth(7,30,tblHostel);
 	}
     
     public void createRentTable() {
@@ -104,17 +136,18 @@ public class Owner extends JDialog {
     	tblRentModel.addColumn("Action");
     	tblRent.setModel(tblRentModel);
 		setColumnWidth(0,40,tblRent);
-		setColumnWidth(0,40,tblRent);
-		setColumnWidth(2,40,tblRent);
-		setColumnWidth(3,40,tblRent);
-		setColumnWidth(4,20,tblRent);
-		setColumnWidth(5,50,tblRent);
-		setColumnWidth(5,50,tblRent);
-		setColumnWidth(5,50,tblRent);
-		setColumnWidth(5,50,tblRent);
+		setColumnWidth(1,20,tblRent);
+		setColumnWidth(2,50,tblRent);
+		setColumnWidth(3,30,tblRent);
+		setColumnWidth(4,30,tblRent);
+		setColumnWidth(5,55,tblRent);
+		setColumnWidth(6,50,tblRent);
+		setColumnWidth(7,50,tblRent);
+		setColumnWidth(8,40,tblRent);
 	}
     
     public void createFreeTable() {
+    	tblFreeModel.addColumn("State");
     	tblFreeModel.addColumn("City");
     	tblFreeModel.addColumn("Street");
     	tblFreeModel.addColumn("Building No:");
@@ -137,13 +170,72 @@ public class Owner extends JDialog {
 		tc.setPreferredWidth(width);
 	}
     
-	public static void main(String[] args) {
+	public void fillHostelData(String ownerId) {		
+		String[] hostelData = new String[8];		
 		try {
-			Owner dialog = new Owner();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
+			Statement ste = con.createStatement();
+			String query = "select * from hostel where userid='"+ownerId+"'";
+			ResultSet rs = ste.executeQuery(query);
+			while(rs.next()) {
+				hostelData[0] = rs.getString(2);//hostelName
+				hostelData[1] = rs.getString(3);//Building No
+				hostelData[2] = rs.getString(4);//Room No
+				hostelData[3] = rs.getString(6);//State
+				hostelData[4] = rs.getString(7);//City
+				hostelData[5] = rs.getString(8);//Street
+				hostelData[6] = rs.getString(10);//Gender Type
+				hostelData[7] = "Edit";
+				tblAllModel.addRow(hostelData);
+			}
+			tblHostel.setModel(tblAllModel);
+		}catch(SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+	}
+	
+	public void fillRentData(String ownerId) {		
+		String[] rentData = new String[8];		
+		try {
+			Statement ste = con.createStatement();
+			String query = "select hostel.state,hostel.city,hostel.street,hostel.buildingno,hostel.roomno,room.smroomno,user.username,user.phoneno from renting,rentingdetail,user,room,hostel where room.hostelid=hostel.hostelid and rentingdetail.roomid=room.roomid and renting.rentid=rentingdetail.rentid and renting.userid=user.userid and rentingdetail.userid="+ownerId+"";
+			ResultSet rs = ste.executeQuery(query);
+			while(rs.next()) {
+				rentData[0] = rs.getString(1);//state
+				rentData[1] = rs.getString(2);//city
+				rentData[2] = rs.getString(3);//street
+				rentData[3] = rs.getString(4);//buildingno
+				rentData[4] = rs.getString(5);//roomno
+				rentData[5] = rs.getString(6);//smroomno
+				rentData[6] = rs.getString(7);//seeker name
+				rentData[7] = rs.getString(8);//seeker phoneno
+				tblRentModel.addRow(rentData);
+			}
+			tblRent.setModel(tblRentModel);
+		}catch(SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+	}
+	
+	public void fillFreeData(String ownerId) {		
+		String[] freeData = new String[7];		
+		try {
+			Statement ste = con.createStatement();
+			String query = "select hostel.state,hostel.city,hostel.street,hostel.buildingno,hostel.roomno,room.smroomno,hostel.gendertype from user,room,hostel where room.hostelid=hostel.hostelid and hostel.userid=user.userid and room.available=true and hostel.userid="+ownerId+"";
+			ResultSet rs = ste.executeQuery(query);
+			while(rs.next()) {
+				freeData[0] = rs.getString(1);//state
+				freeData[1] = rs.getString(2);//city
+				freeData[2] = rs.getString(3);//street
+				freeData[3] = rs.getString(4);//buildingno
+				freeData[4] = rs.getString(5);//roomno
+				freeData[5] = rs.getString(6);//smroomno
+				freeData[6] = rs.getString(7);//gender type
+				
+				tblFreeModel.addRow(freeData);
+			}
+			tblFree.setModel(tblFreeModel);
+		}catch(SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 	}
 }

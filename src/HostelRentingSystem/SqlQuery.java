@@ -242,7 +242,7 @@ public class SqlQuery {
 				seekerData[6] = rs.getString(9);//enddate
 				seekerData[7] = rs.getString(10);//owner id
 				seekerData[8] = rs.getString(11);//price
-			}
+			} 
 			return seekerData;
 		}catch(SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());

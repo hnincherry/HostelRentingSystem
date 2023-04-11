@@ -26,6 +26,14 @@ public class Admin extends JTabbedPane {
         super(JTabbedPane.LEFT);
         setPreferredSize(new Dimension(800, 500)); // set preferred size of tabbed pane
         
+        JFrame frame = new JFrame("Admin Panel");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().add(this);
+       // frame.setLocationRelativeTo(null);
+		frame.setBounds(380, 120, 600, 500);
+        frame.setVisible(true);
+        frame.setResizable(false);
+        
         //tblOwner = new JTable();
         // add tabs     
         JScrollPane scrollPane = new JScrollPane();
@@ -43,19 +51,19 @@ public class Admin extends JTabbedPane {
         createSeekerTable();
     }
     
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                JFrame frame = new JFrame("Admin Panel");
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.getContentPane().add(new Admin());
-                frame.setLocationRelativeTo(null);
-        		frame.setBounds(380, 120, 600, 500);
-                frame.setVisible(true);
-                frame.setResizable(false);
-            }
-        });
-    }
+//    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(new Runnable() {
+//            public void run() {
+//                JFrame frame = new JFrame("Admin Panel");
+//                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//                frame.getContentPane().add(new Admin());
+//                frame.setLocationRelativeTo(null);
+//        		frame.setBounds(380, 120, 600, 500);
+//                frame.setVisible(true);
+//                frame.setResizable(false);
+//            }
+//        });
+//    }
     
     public void createOwnerTable() {
     	tblOwnerModel.addColumn("Owner Name");

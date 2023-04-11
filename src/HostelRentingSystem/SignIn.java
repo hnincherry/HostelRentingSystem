@@ -111,7 +111,7 @@ public class SignIn extends JDialog {
 					String password = txtPass.getText();
 					queryData = sqlquery.getUserInfo(phoneno,password);
 					
-					//System.out.println(queryData[0]+"\n"+queryData[1]+"\n"+queryData[2]);
+					System.out.println(queryData[0]+"\n"+queryData[1]+"\n"+queryData[2]);
 					if(queryData[0] != null && queryData[1] != null) {
 						System.out.println("User data already exist");
 						if(queryData[2].equals("2")) {
@@ -119,14 +119,27 @@ public class SignIn extends JDialog {
 								Renting renting = new Renting(queryData[4],ownername,roomno,price,phoneno,ownerPhone,roomId);
 								renting.setVisible(true);
 							} else {
-								Seeker seeker = new Seeker(phoneno,password);
-								seeker.setVisible(true);
+								String[] querySeeker = sqlquery.getSeekerProfile(phoneno, password);
+								if(querySeeker[0] == null) {
+									JOptionPane.showMessageDialog(null, "Please Rent Hostel to see your profile");
+								} else {
+									Seeker seeker = new Seeker(phoneno,password);
+									seeker.setVisible(true);
+								}
+								
 							}
 							setVisible(false);
 						} else if(queryData[2].equals("3")) {
 							//send owner user id to hostel
 							HostelRegistration register = new HostelRegistration(queryData[3]);
 							register.setVisible(true);
+							setVisible(false);
+						} else if(queryData[2].equals("1")) {
+							//JOptionPane.showMessageDialog(null, "Admin Panel");
+							System.out.println("Admin Panel");
+							Admin admin = new Admin();
+							admin.setVisible(true);
+							
 							setVisible(false);
 						}
 					} else {

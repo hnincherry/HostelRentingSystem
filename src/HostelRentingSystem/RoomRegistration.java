@@ -33,6 +33,7 @@ public class RoomRegistration {
 	SqlQuery sqlquery = new SqlQuery();
 	ArrayList<JTextField> txtRoomArray = new ArrayList<JTextField>();
 	ArrayList<JTextField> txtPriceArray = new ArrayList<JTextField>();
+	boolean isRoomValid = false;
 	
 	public RoomRegistration(String hostelName,String buildingNo,String roomNo,String roomCount,String state,String city,String street,String gender,String userId) {
 		JFrame frame = new JFrame("Room Registration");
@@ -73,7 +74,6 @@ public class RoomRegistration {
 		JButton btnConfirm = new JButton("Confirm");
 		btnConfirm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				 else {
 					String[] hostelData = new String[9];
 					String[] roomData = new String[3];
 					
@@ -86,10 +86,53 @@ public class RoomRegistration {
 					hostelData[6] = street;
 					hostelData[7] = userId;
 					hostelData[8] = gender;
-					boolean save = sqlquery.insertData("hostel", hostelData);
-					String hostelId = sqlquery.getId("hostel");
-					System.out.println("Hostel ID => "+hostelId);
-					if(save) {
+					
+					
+					
+					String[][] roomList = new String[count][3];
+					// check validation
+					for(int k=0;k<count;k++) {
+						String roomNo = txtRoomArray.get(k).getText();
+						String price = txtPriceArray.get(k).getText();
+						System.out.println("roomNo => "+ roomNo + "\tprice" + price);
+						
+						if(Checking.IsNull(roomNo) || Checking.IsLetter(roomNo)) {
+							JOptionPane.showMessageDialog(null, "You must enter valid Room Number");
+							txtRoomNo.requestFocus();
+							txtRoomNo.selectAll();
+							isRoomValid = false;
+							break;
+						}
+						else {
+							isRoomValid = true;
+						}
+						if(Checking.IsNull(price) || !Checking.IsAllDigit(price)) {
+							JOptionPane.showMessageDialog(null, "You must enter valid Price");
+							txtPrice.requestFocus();
+							txtPrice.selectAll();
+							isRoomValid = false;
+							break;
+						}
+						else {
+							isRoomValid = true;
+						}			
+					}
+					
+					// insert data
+					if(isRoomValid) {
+						boolean save = sqlquery.insertData("hostel", hostelData);
+						String hostelId = sqlquery.getId("hostel");
+						System.out.println("Hostel ID => "+hostelId);
+						
+						for(int k=0;k<count;k++) {
+							String roomNo = txtRoomArray.get(k).getText();
+							String price = txtPriceArray.get(k).getText();
+							
+							String[] room = {roomNo, price, hostelId}; // ["Room No", "Price", "HostelID"]
+							roomList[k] = room;  
+						}
+						
+						if(save) {
 						// ["Room No", "Price", "HostelID"]
 						// String[][] == new 
 						// [
@@ -97,44 +140,21 @@ public class RoomRegistration {
 						//  ["Room No", "Price", "HostelID"],
 						//  ["Room No", "Price", "HostelID"]
 						// ]
-						String[][] roomList = new String[count][3];
-						for(int k=0;k<count;k++) {
-							String roomNo = txtRoomArray.get(k).getText();
-							String price = txtPriceArray.get(k).getText();
-//							if(Checking.IsNull(roomNo) || Checking.IsLetter(roomNo)) {
-//								JOptionPane.showMessageDialog(null, "You must enter valid Room Number");
-////								txtRoomNo.requestFocus();
-////								txtRoomNo.selectAll();
-//							} else if(Checking.IsNull(price) || !Checking.IsAllDigit(price)) {
-//								JOptionPane.showMessageDialog(null, "You must enter valid Price");
-////								txtPrice.requestFocus();
-////								txtPrice.selectAll();
-//							} else {
-								String[] room = {roomNo, price, hostelId}; // ["Room No", "Price", "HostelID"]
-								roomList[k] = room;  
-//							}
-							
-						}
+						
 						System.out.println("Room List => "+Arrays.toString(roomList));
 						for(String[] data: roomList) {
-//							String roomNo = data[0];
-//							String price = data[1];
-//							String hostelID = data[2];
 							sqlquery.insertData("room",data);
 						}
 						JOptionPane.showMessageDialog(null, "Successfully Saved Room data");
-//						roomData[0] = txtRoomNo.getText();
-//						roomData[1] = txtPrice.getText();
-//						roomData[2] = hostelId;
-//						save = sqlquery.insertData("room", roomData);
-//						if(save) {
-//							JOptionPane.showMessageDialog(null, "Successfully Saved Room Data");
-//						}
-//						txtRoomNo.setText("");
-//						txtPrice.setText("");
-//						txtRoomNo.requestFocus();
+						
+						// clean text box
+						for(int k=0;k<count;k++) {
+							txtRoomArray.get(k).setText("");
+							txtPriceArray.get(k).setText("");
+						}
+						
 					}
-				//}
+				}		
 			}
 		});
 		
