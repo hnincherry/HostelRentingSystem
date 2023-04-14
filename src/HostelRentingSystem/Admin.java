@@ -10,6 +10,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -28,6 +31,8 @@ public class Admin extends JDialog {
 	DefaultTableModel tblSeekerModel = new DefaultTableModel();
 	DBConnection connect = new DBConnection();
 	Connection con = null;
+	List<String[]> ownerTableRowList = new ArrayList<>();
+	List<String[]> seekerTableRowList = new ArrayList<>();
 	
     public Admin() {
         setTitle("Admin Panel");
@@ -56,8 +61,19 @@ public class Admin extends JDialog {
         tblOwner.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseClicked(MouseEvent e) {
+        		int row = tblOwner.getSelectedRow();
+        		String status = (String) tblOwner.getValueAt(row, 4);
         		
-        	}
+        		String[] ownerData = ownerTableRowList.get(row);
+        		//System.out.println("selectedRowData => " + Arrays.toString(ownerData));	
+        		String userId = ownerData[5];
+        		//System.out.println("User ID => "+userId);
+        		     		
+        		if(status.equals("pending")) {        			
+        			getCustomDialog(userId);
+        		}
+        		
+        	}   
         });
         scrollPane.setViewportView(tblOwner);
         
@@ -69,6 +85,23 @@ public class Admin extends JDialog {
         panel2.add(scrollPane_2);
         
         tblSeeker = new JTable();
+        tblSeeker.addMouseListener(new MouseAdapter() {
+        	@Override
+        	public void mouseClicked(MouseEvent e) {
+        		int row = tblSeeker.getSelectedRow();
+        		String status = (String) tblSeeker.getValueAt(row, 4);
+        		
+        		String[] seekerData = seekerTableRowList.get(row);
+        		//System.out.println("selectedRowData => " + Arrays.toString(ownerData));	
+        		String userId = seekerData[5];
+        		//System.out.println("User ID => "+userId);
+        		     		
+        		if(status.equals("pending")) {        			
+        			getCustomDialog(userId);
+        		}
+        		
+        	}   
+        });
         scrollPane_2.setViewportView(tblSeeker);      
 
         getContentPane().add(tabbedPane);
@@ -79,23 +112,50 @@ public class Admin extends JDialog {
         createOwnerTable();
         createSeekerTable();
         
-//        fillHostelData(userId);
-//        fillRentData(userId);
-//        fillFreeData(userId);
+        fillOwnerData();
+        fillSeekerData();
     }
+    
+    void getCustomDialog(String userId) {
+		JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel panel = new JPanel();
+        JLabel label = new JLabel("Confirmation for User Activation");
+        panel.add(label);
+            
+        int choice = JOptionPane.showOptionDialog(frame,panel,"User Activation",JOptionPane.YES_NO_OPTION,JOptionPane.INFORMATION_MESSAGE,null,null,null);
+        System.out.println("Choice => "+choice);
+        if(choice == JOptionPane.YES_OPTION) {
+        	//System.out.println("You clicked YES");
+        	try {
+        		SqlQuery sqlquery = new SqlQuery();
+            	boolean update = sqlquery.updateUserStatus(userId);
+            	if(update) {
+            		JOptionPane.showMessageDialog(null, "Update User Status Successfully");
+            		fillOwnerData();
+            		fillSeekerData();
+            	}
+        	}catch(SQLException e) {
+        		System.out.println(e.getMessage());
+        	}       	
+        } else if(choice == JOptionPane.NO_OPTION) {
+        	System.out.println("You clicked NO");
+        } else {
+        	System.out.println("You close the dialog");
+        }
+	}
 
     public void createOwnerTable() {
     	tblOwnerModel.addColumn("Owner Name");
     	tblOwnerModel.addColumn("Phone No");
     	tblOwnerModel.addColumn("Nrc");
     	tblOwnerModel.addColumn("Password");
-    	tblOwnerModel.addColumn("Status");
+    	tblOwnerModel.addColumn("Status");    	
 		tblOwner.setModel(tblOwnerModel);
 		setColumnWidth(0,40,tblOwner);
 		setColumnWidth(0,40,tblOwner);
 		setColumnWidth(2,40,tblOwner);
 		setColumnWidth(3,40,tblOwner);
-		setColumnWidth(4,20,tblOwner);
 	}
     
     public void createSeekerTable() {
@@ -118,72 +178,69 @@ public class Admin extends JDialog {
 		tc.setPreferredWidth(width);
 	}
     
-//	public void fillHostelData(String ownerId) {		
-//		String[] hostelData = new String[8];		
-//		try {
-//			Statement ste = con.createStatement();
-//			String query = "select * from hostel where userid='"+ownerId+"'";
-//			ResultSet rs = ste.executeQuery(query);
-//			while(rs.next()) {
-//				hostelData[0] = rs.getString(2);//hostelName
-//				hostelData[1] = rs.getString(3);//Building No
-//				hostelData[2] = rs.getString(4);//Room No
-//				hostelData[3] = rs.getString(6);//State
-//				hostelData[4] = rs.getString(7);//City
-//				hostelData[5] = rs.getString(8);//Street
-//				hostelData[6] = rs.getString(10);//Gender Type
-//				hostelData[7] = "Edit";
-//				tblAllModel.addRow(hostelData);
-//			}
-//			tblHostel.setModel(tblAllModel);
-//		}catch(SQLException e) {
-//			JOptionPane.showMessageDialog(null, e.getMessage());
-//		}
-//	}
-//	
-//	public void fillRentData(String ownerId) {		
-//		String[] rentData = new String[8];		
-//		try {
-//			Statement ste = con.createStatement();
-//			String query = "select hostel.state,hostel.city,hostel.street,hostel.buildingno,hostel.roomno,room.smroomno,user.username,user.phoneno from renting,rentingdetail,user,room,hostel where room.hostelid=hostel.hostelid and rentingdetail.roomid=room.roomid and renting.rentid=rentingdetail.rentid and renting.userid=user.userid and rentingdetail.userid="+ownerId+"";
-//			ResultSet rs = ste.executeQuery(query);
-//			while(rs.next()) {
-//				rentData[0] = rs.getString(1);//state
-//				rentData[1] = rs.getString(2);//city
-//				rentData[2] = rs.getString(3);//street
-//				rentData[3] = rs.getString(4);//buildingno
-//				rentData[4] = rs.getString(5);//roomno
-//				rentData[5] = rs.getString(6);//smroomno
-//				rentData[6] = rs.getString(7);//seeker name
-//				rentData[7] = rs.getString(8);//seeker phoneno
-//				tblRentModel.addRow(rentData);
-//			}
-//			tblRent.setModel(tblRentModel);
-//		}catch(SQLException e) {
-//			JOptionPane.showMessageDialog(null, e.getMessage());
-//		}
-//	}
-//	
-//	public void fillFreeData(String ownerId) {		
-//		String[] freeData = new String[7];		
-//		try {
-//			Statement ste = con.createStatement();
-//			String query = "select hostel.state,hostel.city,hostel.street,hostel.buildingno,hostel.roomno,room.smroomno,hostel.gendertype from user,room,hostel where room.hostelid=hostel.hostelid and hostel.userid=user.userid and room.available=true and hostel.userid="+ownerId+"";
-//			ResultSet rs = ste.executeQuery(query);
-//			while(rs.next()) {
-//				freeData[0] = rs.getString(1);//state
-//				freeData[1] = rs.getString(2);//city
-//				freeData[2] = rs.getString(3);//street
-//				freeData[3] = rs.getString(4);//buildingno
-//				freeData[4] = rs.getString(5);//roomno
-//				freeData[5] = rs.getString(6);//smroomno
-//				freeData[6] = rs.getString(7);//gender type
-//				
-//				tblFreeModel.addRow(freeData);
-//			}
-//			tblFree.setModel(tblFreeModel);
-//		}catch(SQLException e) {
-//			JOptionPane.showMessageDialog(null, e.getMessage());
-//		}
-//	}
+	public void fillOwnerData() {	
+		ownerTableRowList.clear();
+		try {
+			Statement ste = con.createStatement();
+			String query = "select * from user where roleid=3";
+			ResultSet rs = ste.executeQuery(query);
+			while(rs.next()) {
+				String[] ownerData = new String[6];
+				ownerData[0] = rs.getString(2);//Owner Name
+				ownerData[1] = rs.getString(3);//Phone No
+				ownerData[2] = rs.getString(4);//Nrc
+				ownerData[3] = rs.getString(8);//Password
+				ownerData[4] = rs.getString(10);//Status
+				ownerData[5] = rs.getString(1);//UserId
+				ownerTableRowList.add(ownerData);
+//				tblOwnerModel.addRow(ownerData);
+			}
+//			tblOwner.setModel(tblOwnerModel);
+			bindOwnerTableData(ownerTableRowList);
+		}catch(SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+	}
+	
+	void bindOwnerTableData(List<String[]> ownerTableRowList) {
+	System.out.println("ownerTableRowList =>" + ownerTableRowList);
+	tblOwnerModel.setRowCount(0);
+		for(String[] ownerData : ownerTableRowList) {
+			tblOwnerModel.addRow(ownerData);
+		}
+		tblOwner.setModel(tblOwnerModel);
+	}
+	
+	public void fillSeekerData() {	
+		seekerTableRowList.clear();			
+		try {
+			Statement ste = con.createStatement();
+			String query = "select * from user where roleid=2";
+			ResultSet rs = ste.executeQuery(query);
+			while(rs.next()) {
+				String[] seekerData = new String[6];	
+				seekerData[0] = rs.getString(2);//Seeker Name
+				seekerData[1] = rs.getString(3);//Phone No
+				seekerData[2] = rs.getString(4);//Nrc
+				seekerData[3] = rs.getString(8);//Password
+				seekerData[4] = rs.getString(10);//Status
+				seekerData[5] = rs.getString(1);//UserId
+				seekerTableRowList.add(seekerData);
+				//tblSeekerModel.addRow(seekerData);
+				bindSeekerTableData(seekerTableRowList);
+			}
+			//tblSeeker.setModel(tblSeekerModel);
+		}catch(SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+	}
+	
+	void bindSeekerTableData(List<String[]> seekerTableRowList) {
+	System.out.println("ownerTableRowList =>" + seekerTableRowList);
+	tblSeekerModel.setRowCount(0);
+		for(String[] seekerData : seekerTableRowList) {
+			tblSeekerModel.addRow(seekerData);
+		}
+		tblSeeker.setModel(tblSeekerModel);
+	}
 }

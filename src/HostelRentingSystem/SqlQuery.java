@@ -294,6 +294,21 @@ public class SqlQuery {
 		}		
 	}
 	
+	//Update Status when admin approved
+	public boolean updateUserStatus(String userId) throws SQLException {
+		try {
+			String query = "update user set status='active' where userid='"+userId+"'";
+			boolean update = connect.executeSql(query);
+			if(update) {
+				System.out.println("Status Update Success");
+			}
+			return update;
+		} catch(Exception e) {
+			System.out.print(e);
+			return false;
+		}		
+	}
+	
 	//Get OwnerName 
 	public String[] getOwnerData(String userId) {
 		try {

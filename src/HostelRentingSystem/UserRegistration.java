@@ -265,7 +265,7 @@ public class UserRegistration extends JDialog {
 					userData[5] = txtStreet.getText();
 					userData[6] = txtPass.getText();
 					userData[7] = roleId;
-					userData[8] = "active";
+					userData[8] = "pending";
 					userData[9] = gender;//gender
 					boolean save = sqlquery.insertData("user", userData);
 					if(save) {
