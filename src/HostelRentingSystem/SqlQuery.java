@@ -84,19 +84,11 @@ public class SqlQuery {
 		}
 	}
  
-	//Get ID for Combobox
-	public String[] getID(String tableName) {
+	//Get Address for Combobox
+	public String[] getAddressForChoice(String tableName) {
 		try {
-			if(tableName.equals("merchandise")) {
-				rs = connect.sqlSelect("merId", "merchandise");
-			} else if(tableName.equals("brand")) {
-				rs = connect.sqlSelect("brandId", "brand");
-			} else if(tableName.equals("type")) {
-				rs = connect.sqlSelect("typeId", "type");
-			} else if(tableName.equals("supplier")) {
-				rs = connect.sqlSelect("supplierId", "supplier");
-			} else if(tableName.equals("itemdetail")) {
-				rs = connect.sqlSelect("itemId", "itemdetail");
+			if(tableName.equals("hostel")) {
+				rs = connect.sqlSelect("city", "hostel");
 			}
 			int rowCount = 0;
 			while(rs.next()) {
@@ -255,7 +247,7 @@ public class SqlQuery {
 		try {
 			ArrayList<String[]> hostelList = new ArrayList<String[]>();
 			ste = con.createStatement();
-			query = "select hostelname,smroomno,hostel.street,hostel.city,hostel.state,price,gendertype,username,phoneno,room.roomid from hostel,room,user where hostel.hostelid=room.hostelid and hostel.userid=user.userid and user.roleid=3 and available=true";
+			query = "select hostelname,smroomno,hostel.street,hostel.city,hostel.state,price,gendertype,username,phoneno,room.roomid from hostel,room,user where hostel.hostelid=room.hostelid and hostel.userid=user.userid and available=true";
 			rs = ste.executeQuery(query);
 			
 			while(rs.next()) {
@@ -278,6 +270,36 @@ public class SqlQuery {
 			return null;
 		}
 	}
+	
+	//Get Search Hostel Data
+		public ArrayList<String[]> getSearchData(String city) {
+			try {
+				ArrayList<String[]> searchList = new ArrayList<String[]>();
+				ste = con.createStatement();
+				query = "select hostelname,smroomno,hostel.street,hostel.city,hostel.state,price,gendertype,username,phoneno,room.roomid from hostel,room,user where hostel.hostelid=room.hostelid and hostel.userid=user.userid and available=true and hostel.city='"+city+"'";
+				System.out.println("Query => "+query);
+				rs = ste.executeQuery(query);
+				
+				while(rs.next()) {
+					String[] str = new String[8];
+					str[0] = rs.getString(1);//hostelname
+					str[1] = rs.getString(2);//smroomno
+					str[2] = rs.getString(3) +" Street/"+ rs.getString(4) +"/"+ rs.getString(5);//street/city/state
+					str[3] = rs.getString(6);//price
+					str[4] = rs.getString(7);//gendertype
+					str[5] = rs.getString(8);//owner username
+					str[6] = rs.getString(9);//owner password
+					str[7] = rs.getString(10);//roomid
+					searchList.add(str);
+					//System.out.println("ResultSet => "+ rs.getString(2));
+				}
+				
+				return searchList;
+			}catch(SQLException e) {
+				JOptionPane.showMessageDialog(null, e.getMessage());
+				return null;
+			}
+		}
 	
 	//Update Room Available
 	public boolean updateRoom(String roomId,boolean flag) throws SQLException {

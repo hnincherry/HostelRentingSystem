@@ -31,7 +31,7 @@ public class DBConnection {
 		ResultSet rs = null;
 		try {
 			Statement ste = getConnection().createStatement();
-			rs = ste.executeQuery("Select "+field+" "
+			rs = ste.executeQuery("Select distinct "+field+" "
 					+ "from "+table);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

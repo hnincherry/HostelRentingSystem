@@ -16,6 +16,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JScrollPane;
@@ -32,6 +33,12 @@ public class Home extends JFrame {
 	SqlQuery sqlquery = new SqlQuery();
 	String hostelName,roomno,address,genderType,ownerName,ownerPhone,roomId;
 	int price;
+	private JComboBox comboBox;
+	
+	JList<Hostel> hostelList;
+	DefaultListModel<Hostel> listModel;
+	JScrollPane scrollPane;
+	ArrayList<Hostel> hostelArrList;
 	
 	/**
 	 * Launch the application.
@@ -61,45 +68,69 @@ public class Home extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		listModel = new DefaultListModel<Hostel>();
+		
+		hostelList = new JList<>(listModel);
+		hostelList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+	    hostelList.setCellRenderer(new ListCellRenderer());
+	    
+	    hostelList.addListSelectionListener(new ListSelectionListener() {
+	    	public void valueChanged(ListSelectionEvent e) {
+	    		if(!e.getValueIsAdjusting()) {
+	    			JList<Hostel> list = (JList<Hostel>) e.getSource();
+	    			int selectedIndex = list.getSelectedIndex();
+	    			System.out.println("selectedIndex => " + selectedIndex);
+	    			System.out.println("hostelArrList.size() => " +  hostelArrList.size());
+	    			if(selectedIndex < hostelArrList.size() && selectedIndex >= 0) {
+	    				Hostel selectedHostel = hostelArrList.get(selectedIndex);
+	    				hostelName = selectedHostel.getHostelName();
+		    			roomno = selectedHostel.getRoomNo();
+		    			address = selectedHostel.getAddress();
+		    			genderType = selectedHostel.getGenderType();
+		    			price = selectedHostel.getPrice();
+		    			ownerName = selectedHostel.getOwnerName();
+		    			ownerPhone = selectedHostel.getOwnerPhone();
+		    			roomId = selectedHostel.getRoomId();
+		    			
+		    			//System.out.println("Selected Hostel => "+hostelName+"/"+roomno+"/"+address+"/"+price);
+		    			//System.out.println("Selected Index => "+selectedIndex+"\nSelected Value => "+selectedHostel);
+		    			HostelDetail detail = new HostelDetail(hostelName,roomno,address,genderType,price,ownerName,ownerPhone,roomId);
+		    			detail.setVisible(true);
+	    			}
+	    			
+	    				    		
+	    		}
+	    	}
+	    });
+	    
+		scrollPane = new JScrollPane(hostelList);
+		scrollPane.setBounds(10, 45, 564, 405);
+		add(scrollPane);
  
-		DefaultListModel<Hostel> listModel = new DefaultListModel<Hostel>();
-		ArrayList<String[]> strQuery = new ArrayList<String[]>();
-		
-		strQuery = sqlquery.getHostelData();
-		ArrayList<Hostel> hostelArrList = new ArrayList<Hostel>();
-		for(int i=0;i<strQuery.size();i++) {
-			Hostel hostel = new Hostel();
-			String[] data = strQuery.get(i);
-			
-			hostel.setHostelName(data[0]);
-			hostel.setRoomNo(data[1]);
-			hostel.setAddress(data[2]);
-			hostel.setPrice(Integer.parseInt(data[3]));
-			hostel.setGenderType(data[4]);
-			hostel.setOwnerName(data[5]);
-			hostel.setOwnerPhone(data[6]);
-			hostel.setRoomId(data[7]);
-			//System.out.println("Hostel Data => "+i+ hostel  + "\n");
-			hostelArrList.add(hostel);
-			
-		}
-		
-		for(Hostel hostelData : hostelArrList) {
-			listModel.addElement(hostelData);
-		}
+		ArrayList<String[]> strQuery = sqlquery.getHostelData();
+		bindListView(strQuery);
 			
 		ImageIcon icon = new ImageIcon(getClass().getResource("/search-icon.png"));
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
+		comboBox = new JComboBox();
 		comboBox.setBounds(10, 7, 319, 27);
 		contentPane.add(comboBox);
  
 		JButton btnSearch = new JButton(new ImageIcon((icon.getImage()).getScaledInstance(27, 25, java.awt.Image.SCALE_SMOOTH)));
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String selectedValue = comboBox.getSelectedItem().toString();
+				if(selectedValue.equals("-Selected-")) {
+					ArrayList<String[]> strQuery = sqlquery.getHostelData();
+					bindListView(strQuery);
+				} else {
+					ArrayList<String[]> strQuery = sqlquery.getSearchData(selectedValue);				
+					bindListView(strQuery);
+				}
+				
+			}
+		});
 		btnSearch.setBounds(327, 7, 35, 27);
 		contentPane.add(btnSearch);
  
@@ -122,41 +153,51 @@ public class Home extends JFrame {
 		});
 		btnSignup.setBounds(487, 8, 87, 25);
 		contentPane.add(btnSignup);
+				
+		fillAddress();
+	}
+	
+	public void fillAddress() {
+		// TODO Auto-generated method stub
+		String[] str = sqlquery.getAddressForChoice("hostel");
+		comboBox.addItem("-Selected-");
+		for(int i=0;i<str.length;i++) {
+			comboBox.addItem(str[i].toString());
+		}
+	}
+	
+	public void bindListView(ArrayList<String[]> strQuery) {
+		System.out.println("Bind List View => " + strQuery.size());
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 45, 564, 405);
-		contentPane.add(scrollPane);
+		hostelArrList = new ArrayList<Hostel>();
+		
+		for(int i=0;i<strQuery.size();i++) {
+			Hostel hostel = new Hostel();
+			String[] data = strQuery.get(i);
+			
+			hostel.setHostelName(data[0]);
+			hostel.setRoomNo(data[1]);
+			hostel.setAddress(data[2]);
+			hostel.setPrice(Integer.parseInt(data[3]));
+			hostel.setGenderType(data[4]);
+			hostel.setOwnerName(data[5]);
+			hostel.setOwnerPhone(data[6]);
+			hostel.setRoomId(data[7]);
+			hostelArrList.add(hostel);
+		}
+		
+		System.out.println("hostelArrList => " + hostelArrList);
+		listModel.clear();
+		
+		for(Hostel hostelData : hostelArrList) {
+			listModel.addElement(hostelData);
+		}
 	    
-	    JList<Hostel> hostelList = new JList<>(listModel);
-	    hostelList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-	    hostelList.setCellRenderer(new ListCellRenderer());    
-	    hostelList.setModel(listModel);
 	    
-	    hostelList.addListSelectionListener(new ListSelectionListener() {
-	    	public void valueChanged(ListSelectionEvent e) {
-	    		if(!e.getValueIsAdjusting()) {
-	    			JList<Hostel> list = (JList<Hostel>) e.getSource();
-	    			int selectedIndex = list.getSelectedIndex();
-	    			Hostel selectedHostel = hostelArrList.get(selectedIndex);
-	    			
-	    			hostelName = selectedHostel.getHostelName();
-	    			roomno = selectedHostel.getRoomNo();
-	    			address = selectedHostel.getAddress();
-	    			genderType = selectedHostel.getGenderType();
-	    			price = selectedHostel.getPrice();
-	    			ownerName = selectedHostel.getOwnerName();
-	    			ownerPhone = selectedHostel.getOwnerPhone();
-	    			roomId = selectedHostel.getRoomId();
-	    			
-	    			//System.out.println("Selected Hostel => "+hostelName+"/"+roomno+"/"+address+"/"+price);
-	    			//System.out.println("Selected Index => "+selectedIndex+"\nSelected Value => "+selectedHostel);
-	    			HostelDetail detail = new HostelDetail(hostelName,roomno,address,genderType,price,ownerName,ownerPhone,roomId);
-	    			detail.setVisible(true);	    		
-	    		}
-	    	}
-	    });
-		scrollPane.setViewportView(hostelList);
-
+	    System.out.println("listModel => " + listModel);
+	    
+	    System.out.println("hostelList => " + hostelList);
+	    
 	}
 }
 
