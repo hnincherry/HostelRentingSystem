@@ -71,6 +71,26 @@ public class SqlQuery {
 			return false;
 		}
 	}
+	
+	//Get RoomNo for Duplicate
+	public boolean isDuplicateRoomno(String[] data) {
+		query = "select count(roomno) from hostel where state='"+data[0]+"' and city='"+data[1]+"' and street='"+data[2]+"' and buildingno='"+data[3]+"' and roomno='"+data[4]+"'";
+		try {
+			ste = con.createStatement();
+			rs = ste.executeQuery(query);
+			rs.next();
+			int count = rs.getInt(1);
+			if(count > 0) {
+				return true;
+			} else {
+				return false;
+			}
+		}catch(SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(),"SQL Exception",JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+			return false;
+		}
+	}
  
 	//Get Address for Combobox
 	public String[] getAddressForChoice(String tableName) {

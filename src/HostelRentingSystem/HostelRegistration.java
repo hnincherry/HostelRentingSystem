@@ -29,7 +29,8 @@ public class HostelRegistration extends JDialog {
 	private JTextField txtCity;
 	private JTextField txtStreet;
 	private JComboBox cboGender;
-
+	SqlQuery sqlquery = new SqlQuery();
+	
 	/**
 	 * Launch the application.
 	 */
@@ -92,58 +93,7 @@ public class HostelRegistration extends JDialog {
 		lblGenderType.setBounds(30, 315, 102, 30);
 		getContentPane().add(lblGenderType);
 		
-		System.out.println("User ID in Hostel Registration=> " + userId);
-		JButton btnNext = new JButton("Next");
-		btnNext.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(Checking.IsNull(txtHostelName.getText()) || !Checking.IsLetter(txtHostelName.getText())) {
-					JOptionPane.showMessageDialog(null, "You must enter valid Hostel Name");
-					txtHostelName.requestFocus();
-					txtHostelName.selectAll();
-				} else if(Checking.IsNull(txtBuildingNo.getText()) || Checking.IsLetter(txtBuildingNo.getText())) {
-					JOptionPane.showMessageDialog(null, "You must enter valid Building No:");
-					txtBuildingNo.requestFocus();
-					txtBuildingNo.selectAll();
-				} else if(Checking.IsNull(txtMainRoom.getText()) || Checking.IsLetter(txtMainRoom.getText())) {
-					JOptionPane.showMessageDialog(null, "You must enter valid Main Room No:");
-					txtMainRoom.requestFocus();
-					txtMainRoom.selectAll();
-				} else if(Checking.IsNull(txtRoomCount.getText()) || Checking.IsLetter(txtRoomCount.getText())) {
-					JOptionPane.showMessageDialog(null, "You must enter valid Room Count");
-					txtRoomCount.requestFocus();
-					txtRoomCount.selectAll();
-				} else if(Checking.IsNull(txtState.getText()) || !Checking.IsLetter(txtState.getText())) {
-					JOptionPane.showMessageDialog(null, "You must enter valid State Name");
-					txtState.requestFocus();
-					txtState.selectAll();
-				} else if(Checking.IsNull(txtCity.getText()) || !Checking.IsLetter(txtCity.getText())) {
-					JOptionPane.showMessageDialog(null, "You must enter valid City Name");
-					txtCity.requestFocus();
-					txtCity.selectAll();
-				} else if(Checking.IsNull(txtStreet.getText()) || !Checking.IsLetter(txtStreet.getText())) {
-					JOptionPane.showMessageDialog(null, "You must enter valid Street Name");
-					txtStreet.requestFocus();
-					txtStreet.selectAll();
-				} else if(cboGender.getSelectedIndex() == 0) {
-					JOptionPane.showMessageDialog(null, "You must Choose Gender Type");
-					cboGender.requestFocus();
-				} else {
-					String hostelName = txtHostelName.getText();
-					String buildingNo = txtBuildingNo.getText();
-					String roomNo = txtMainRoom.getText();
-					String roomCount = txtRoomCount.getText();
-					String state = txtState.getText();
-					String city = txtCity.getText();
-					String street = txtStreet.getText();
-					String gender = (String) cboGender.getSelectedItem();
-					new RoomRegistration(hostelName,buildingNo,roomNo,roomCount,state,city,street,gender,userId);
-					clear();
-				} 
-			}
-		});
-		btnNext.setBounds(184, 385, 102, 42);
-		getContentPane().add(btnNext);
-		
+
 		txtHostelName = new JTextField();
 		txtHostelName.setBounds(235, 28, 319, 25);
 		getContentPane().add(txtHostelName);
@@ -178,6 +128,71 @@ public class HostelRegistration extends JDialog {
 		txtStreet.setColumns(10);
 		txtStreet.setBounds(235, 280, 319, 25);
 		getContentPane().add(txtStreet);
+		
+		System.out.println("User ID in Hostel Registration=> " + userId);
+		JButton btnNext = new JButton("Next");
+		btnNext.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String[] arr = new String[5];
+				arr[0] = txtState.getText();
+				arr[1] = txtCity.getText();
+				arr[2] = txtStreet.getText();
+				arr[3] = txtBuildingNo.getText();
+				arr[4] = txtMainRoom.getText();
+				
+				boolean duplicate = sqlquery.isDuplicateRoomno(arr);
+				System.out.println("Room Duplicate => "+duplicate);
+				
+				if(Checking.IsNull(txtHostelName.getText()) || !Checking.IsLetter(txtHostelName.getText())) {
+					JOptionPane.showMessageDialog(null, "You must enter valid Hostel Name");
+					txtHostelName.requestFocus();
+					txtHostelName.selectAll();
+				} else if(Checking.IsNull(txtBuildingNo.getText()) || Checking.IsLetter(txtBuildingNo.getText())) {
+					JOptionPane.showMessageDialog(null, "You must enter valid Building No:");
+					txtBuildingNo.requestFocus();
+					txtBuildingNo.selectAll();
+				} else if(Checking.IsNull(txtMainRoom.getText()) || Checking.IsLetter(txtMainRoom.getText())) {
+					JOptionPane.showMessageDialog(null, "You must enter valid Main Room No:");
+					txtMainRoom.requestFocus();
+					txtMainRoom.selectAll();
+				} else if(Checking.IsNull(txtRoomCount.getText()) || Checking.IsLetter(txtRoomCount.getText())) {
+					JOptionPane.showMessageDialog(null, "You must enter valid Room Count");
+					txtRoomCount.requestFocus();
+					txtRoomCount.selectAll();
+				} else if(Checking.IsNull(txtState.getText()) || !Checking.IsLetter(txtState.getText())) {
+					JOptionPane.showMessageDialog(null, "You must enter valid State Name");
+					txtState.requestFocus();
+					txtState.selectAll();
+				} else if(Checking.IsNull(txtCity.getText()) || !Checking.IsLetter(txtCity.getText())) {
+					JOptionPane.showMessageDialog(null, "You must enter valid City Name");
+					txtCity.requestFocus();
+					txtCity.selectAll();
+				} else if(Checking.IsNull(txtStreet.getText()) || !Checking.IsLetter(txtStreet.getText())) {
+					JOptionPane.showMessageDialog(null, "You must enter valid Street Name");
+					txtStreet.requestFocus();
+					txtStreet.selectAll();
+				} else if(cboGender.getSelectedIndex() == 0) {
+					JOptionPane.showMessageDialog(null, "You must Choose Gender Type");
+					cboGender.requestFocus();
+				} else if(duplicate) {
+					JOptionPane.showMessageDialog(null, "Hostel is already exist in this address!!");
+				} else {
+					String hostelName = txtHostelName.getText();
+					String buildingNo = txtBuildingNo.getText();
+					String roomNo = txtMainRoom.getText();
+					String roomCount = txtRoomCount.getText();
+					String state = txtState.getText();
+					String city = txtCity.getText();
+					String street = txtStreet.getText();
+					String gender = (String) cboGender.getSelectedItem();
+					new RoomRegistration(hostelName,buildingNo,roomNo,roomCount,state,city,street,gender,userId);
+					clear();
+				} 
+			}
+		});
+		btnNext.setBounds(184, 385, 102, 42);
+		getContentPane().add(btnNext);
+		
 		
 		cboGender = new JComboBox();
 		cboGender.setModel(new DefaultComboBoxModel(new String[] {"---Select---", "Male", "Female"}));
