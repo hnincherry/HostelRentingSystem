@@ -54,21 +54,9 @@ public class SqlQuery {
 		}
 	}
  
-	//Check Duplicate
-	public boolean isDuplicate(String tableName,String[] data) {
-		if(tableName.equals("brand")) {
-			query = "select * from brand where brandName='"+data[0]+"'";
-		} else if(tableName.equals("type")) {
-			query = "select * from type where typeName='"+data[0]+"'";
-		} else if(tableName.equals("merchandise")) {
-			query = "select * from merchandise where brandId='"+data[0]+"' and typeId='"+data[1]+"'";
-		} else if(tableName.equals("itemdetail")) {
-			query = "select * from itemdetail where merId='"+data[0]+"' and itemName='"+data[1]+"'";
-		} else if(tableName.equals("customer")) {
-			query = "select * from customer where customerName='"+data[0]+"' and address='"+data[1]+"' and phoneNo='"+data[2]+"' and email='"+data[3]+"'";
-		} else if(tableName.equals("supplier")) {
-			query = "select * from supplier where supplierName='"+data[0]+"' and supplierAddress='"+data[1]+"' and supplierPhoneNo='"+data[2]+"' and email='"+data[3]+"'";
-		}
+	//Check PhoneNo Duplicate
+	public boolean isPhonenoDuplicate(String phoneno) {
+		query = "select * from user where phoneno='"+phoneno+"'"; 
 		try {
 			ste = con.createStatement();
 			rs = ste.executeQuery(query);

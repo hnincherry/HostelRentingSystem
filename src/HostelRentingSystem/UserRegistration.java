@@ -160,10 +160,8 @@ public class UserRegistration extends JDialog {
 		
 		cboCode = new JComboBox();
 		cboCode.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				fillCode();
-				
+			public void actionPerformed(ActionEvent e) {				
+				fillCode();				
 			}
 		});
 		cboCode.setModel(new DefaultComboBoxModel(new String[] {"---Select---","1/", "2/", "3/", "4/", "5/", "6/", "7/", "8/", "9/", "10/", "11/", "12/", "13/", "14/"}));
@@ -185,9 +183,12 @@ public class UserRegistration extends JDialog {
 		panel.add(txtNRCno);
 		txtNRCno.setColumns(10);
 		
+		
 		btnRegister = new JButton("Register");
 		btnRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				boolean duplicate = sqlquery.isPhonenoDuplicate(txtPhone.getText());
+				
 				if(Checking.IsNull(txtName.getText()) || Checking.IsValidName(txtName.getText()))
 				{
 					JOptionPane.showMessageDialog(null, "You must enter valid Name");
@@ -204,8 +205,7 @@ public class UserRegistration extends JDialog {
 				{
 					JOptionPane.showMessageDialog(null, "Your password should be at least 8");
 					txtPass.requestFocus();
-					txtPass.selectAll();
-					
+					txtPass.selectAll();					
 				}
 				else if(Checking.IsNull(txtState.getText()))
 				{
@@ -233,22 +233,25 @@ public class UserRegistration extends JDialog {
 				else if(cboCity.getSelectedIndex() == 0)
 				{
 					JOptionPane.showMessageDialog(null, "You must choose City for NRC");
-					cboCity.requestFocus();
-					
+					cboCity.requestFocus();					
 				}
 				else if(cboNation.getSelectedIndex() == 0)
 				{
 					JOptionPane.showMessageDialog(null, "You must choose Nation for NRC");
 					cboNation.requestFocus();
 					
-				}
-				
+				}				
 				else if(Checking.IsNull(txtNRCno.getText()) || !Checking.IsNrc(txtNRCno.getText()) || !Checking.IsAllDigit(txtNRCno.getText()))
 				{
 					JOptionPane.showMessageDialog(null, "You must enter valid NRC Code");
 					txtNRCno.requestFocus();
 					txtNRCno.selectAll();
-				} else {
+				} 
+				else if(duplicate)
+				{
+					JOptionPane.showMessageDialog(null, "Registration PhoneNo is already exist!!");					
+				}
+				else {
 					String code,city,nation,number;
 					code = (String) cboCode.getSelectedItem();
 					city = (String) cboCity.getSelectedItem();
@@ -275,7 +278,6 @@ public class UserRegistration extends JDialog {
 				}
 				
 			}
-
 			private Object String(String text) {
 				// TODO Auto-generated method stub
 				return null;
