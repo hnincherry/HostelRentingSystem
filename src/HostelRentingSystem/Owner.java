@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -32,6 +34,8 @@ public class Owner extends JDialog {
 	DefaultTableModel tblFreeModel = new DefaultTableModel();
 	DBConnection connect = new DBConnection();
 	Connection con = null;
+	SqlQuery sqlquery = new SqlQuery();
+	List<String[]> freeDataList = new ArrayList<>();
 	
     public Owner(String userId) {
         setTitle("Owner Panel");
@@ -59,16 +63,6 @@ public class Owner extends JDialog {
         panel1.add(scrollPane);
         
         tblHostel = new JTable();
-        tblHostel.addMouseListener(new MouseAdapter() {
-        	@Override
-        	public void mouseClicked(MouseEvent e) {
-        		int row = tblHostel.getSelectedRow();
-        		if(JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?","Confirm Existing",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-					dispose();
-					
-				}
-        	}
-        });
         scrollPane.setViewportView(tblHostel);
         
         tabbedPane.addTab("Rent", null, panel3, "Rent");
@@ -88,8 +82,19 @@ public class Owner extends JDialog {
         panel4.add(scrollPane_3);
         
         tblFree = new JTable();
+        tblFree.addMouseListener(new MouseAdapter() {
+        	@Override
+        	public void mouseClicked(MouseEvent e) {
+        		int row = tblFree.getSelectedRow();
+        		if(JOptionPane.showConfirmDialog(null, "Are you sure you want to delete small room?","Confirm Deleting",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+					sqlquery.deleteRoom(tblFree.getValueAt(row, 6).toString());	
+					fillFreeData(userId);
+        			//System.out.println("Small Romm No => "+tblFree.getValueAt(row, 6));
+				}
+        	}
+        });
         scrollPane_3.setViewportView(tblFree);
-
+        
         getContentPane().add(tabbedPane);
 
         setLocationRelativeTo(null);
@@ -102,6 +107,7 @@ public class Owner extends JDialog {
         fillHostelData(userId);
         fillRentData(userId);
         fillFreeData(userId);
+        
     }
 
     public void createAllTable() {
@@ -112,7 +118,6 @@ public class Owner extends JDialog {
     	tblAllModel.addColumn("City");
     	tblAllModel.addColumn("Street");
     	tblAllModel.addColumn("Gender Type");
-    	tblAllModel.addColumn("Action");
 		tblHostel.setModel(tblAllModel);
 		setColumnWidth(0,50,tblHostel);
 		setColumnWidth(1,30,tblHostel);
@@ -121,10 +126,10 @@ public class Owner extends JDialog {
 		setColumnWidth(4,20,tblHostel);
 		setColumnWidth(5,50,tblHostel);
 		setColumnWidth(6,40,tblHostel);
-		setColumnWidth(7,30,tblHostel);
 	}
     
     public void createRentTable() {
+    	tblRentModel.addColumn("Hostel Name");
     	tblRentModel.addColumn("State");
     	tblRentModel.addColumn("City");
     	tblRentModel.addColumn("Street");
@@ -133,20 +138,20 @@ public class Owner extends JDialog {
     	tblRentModel.addColumn("Small Room No:");
     	tblRentModel.addColumn("Seeker Name");
     	tblRentModel.addColumn("Phone No");
-    	tblRentModel.addColumn("Action");
     	tblRent.setModel(tblRentModel);
-		setColumnWidth(0,40,tblRent);
-		setColumnWidth(1,20,tblRent);
-		setColumnWidth(2,50,tblRent);
+    	setColumnWidth(0,50,tblRent);
+		setColumnWidth(1,30,tblRent);
+		setColumnWidth(2,30,tblRent);
 		setColumnWidth(3,30,tblRent);
 		setColumnWidth(4,30,tblRent);
-		setColumnWidth(5,55,tblRent);
-		setColumnWidth(6,50,tblRent);
-		setColumnWidth(7,50,tblRent);
+		setColumnWidth(5,45,tblRent);
+		setColumnWidth(6,45,tblRent);
+		setColumnWidth(7,30,tblRent);
 		setColumnWidth(8,40,tblRent);
 	}
     
     public void createFreeTable() {
+    	tblFreeModel.addColumn("Hostel Name");
     	tblFreeModel.addColumn("State");
     	tblFreeModel.addColumn("City");
     	tblFreeModel.addColumn("Street");
@@ -155,13 +160,14 @@ public class Owner extends JDialog {
     	tblFreeModel.addColumn("Small Room No:");
     	tblFreeModel.addColumn("Gender Type");
 		tblFree.setModel(tblFreeModel);
-		setColumnWidth(0,40,tblFree);
-		setColumnWidth(0,40,tblFree);
-		setColumnWidth(2,40,tblFree);
+		setColumnWidth(0,50,tblFree);
+		setColumnWidth(1,30,tblFree);
+		setColumnWidth(2,30,tblFree);
 		setColumnWidth(3,40,tblFree);
 		setColumnWidth(4,20,tblFree);
 		setColumnWidth(5,50,tblFree);
-		setColumnWidth(5,50,tblFree);
+		setColumnWidth(6,40,tblFree);
+		setColumnWidth(7,30,tblFree);
 	}
     
 	public void setColumnWidth(int index,int width,JTable tableName) {
@@ -184,7 +190,6 @@ public class Owner extends JDialog {
 				hostelData[4] = rs.getString(7);//City
 				hostelData[5] = rs.getString(8);//Street
 				hostelData[6] = rs.getString(10);//Gender Type
-				hostelData[7] = "Edit";
 				tblAllModel.addRow(hostelData);
 			}
 			tblHostel.setModel(tblAllModel);
@@ -194,20 +199,21 @@ public class Owner extends JDialog {
 	}
 	
 	public void fillRentData(String ownerId) {		
-		String[] rentData = new String[8];		
+		String[] rentData = new String[9];		
 		try {
 			Statement ste = con.createStatement();
-			String query = "select hostel.state,hostel.city,hostel.street,hostel.buildingno,hostel.roomno,room.smroomno,user.username,user.phoneno from renting,rentingdetail,user,room,hostel where room.hostelid=hostel.hostelid and rentingdetail.roomid=room.roomid and renting.rentid=rentingdetail.rentid and renting.userid=user.userid and rentingdetail.userid="+ownerId+"";
+			String query = "select hostelname,hostel.state,hostel.city,hostel.street,hostel.buildingno,hostel.roomno,room.smroomno,user.username,user.phoneno from renting,rentingdetail,user,room,hostel where room.hostelid=hostel.hostelid and rentingdetail.roomid=room.roomid and renting.rentid=rentingdetail.rentid and renting.userid=user.userid and rentingdetail.userid="+ownerId+"";
 			ResultSet rs = ste.executeQuery(query);
 			while(rs.next()) {
-				rentData[0] = rs.getString(1);//state
-				rentData[1] = rs.getString(2);//city
-				rentData[2] = rs.getString(3);//street
-				rentData[3] = rs.getString(4);//buildingno
-				rentData[4] = rs.getString(5);//roomno
-				rentData[5] = rs.getString(6);//smroomno
-				rentData[6] = rs.getString(7);//seeker name
-				rentData[7] = rs.getString(8);//seeker phoneno
+				rentData[0] = rs.getString(1);// hostelname
+				rentData[1] = rs.getString(2);// state
+				rentData[2] = rs.getString(3);// city
+				rentData[3] = rs.getString(4);// street
+				rentData[4] = rs.getString(5);// buildingno
+				rentData[5] = rs.getString(6);// roomno
+				rentData[6] = rs.getString(7);// smroomno
+				rentData[7] = rs.getString(8);// seeker name
+				rentData[8] = rs.getString(9);//seeker phoneno
 				tblRentModel.addRow(rentData);
 			}
 			tblRent.setModel(tblRentModel);
@@ -216,26 +222,38 @@ public class Owner extends JDialog {
 		}
 	}
 	
-	public void fillFreeData(String ownerId) {		
-		String[] freeData = new String[7];		
+	public void fillFreeData(String ownerId) {	
+		freeDataList.clear();
 		try {
 			Statement ste = con.createStatement();
-			String query = "select hostel.state,hostel.city,hostel.street,hostel.buildingno,hostel.roomno,room.smroomno,hostel.gendertype from user,room,hostel where room.hostelid=hostel.hostelid and hostel.userid=user.userid and room.available=true and hostel.userid="+ownerId+"";
+			String query = "select hostelname,hostel.state,hostel.city,hostel.street,hostel.buildingno,hostel.roomno,room.smroomno,hostel.gendertype from user,room,hostel where room.hostelid=hostel.hostelid and hostel.userid=user.userid and room.available=true and hostel.userid="+ownerId+"";
 			ResultSet rs = ste.executeQuery(query);
 			while(rs.next()) {
-				freeData[0] = rs.getString(1);//state
-				freeData[1] = rs.getString(2);//city
-				freeData[2] = rs.getString(3);//street
-				freeData[3] = rs.getString(4);//buildingno
-				freeData[4] = rs.getString(5);//roomno
-				freeData[5] = rs.getString(6);//smroomno
-				freeData[6] = rs.getString(7);//gender type
+				String[] freeData = new String[8];		
+				freeData[0] = rs.getString(1);// hostelname
+				freeData[1] = rs.getString(2);// state
+				freeData[2] = rs.getString(3);// city
+				freeData[3] = rs.getString(4);// street
+				freeData[4] = rs.getString(5);// buildingno
+				freeData[5] = rs.getString(6);// roomno
+				freeData[6] = rs.getString(7);// smroomno
+				freeData[7] = rs.getString(8);//gender type	
+				freeDataList.add(freeData);
 				
-				tblFreeModel.addRow(freeData);
 			}
-			tblFree.setModel(tblFreeModel);
+			bindFreeTableData(freeDataList);
+			
 		}catch(SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
+	}
+
+	private void bindFreeTableData(List<String[]> freeDataList) {
+		tblFreeModel.setRowCount(0);
+		// TODO Auto-generated method stub
+		for(String[] data: freeDataList) {
+			tblFreeModel.addRow(data);
+		}
+		tblFree.setModel(tblFreeModel);
 	}
 }

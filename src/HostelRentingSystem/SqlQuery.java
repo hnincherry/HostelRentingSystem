@@ -390,4 +390,19 @@ public class SqlQuery {
 			}
 		}
 
+	//Delete Small Room No 
+	public boolean deleteRoom(String smallroomno) {
+		try {
+			ste = con.createStatement();
+			query = "delete from room where smroomno='"+smallroomno+"'";
+			if(ste.executeUpdate(query) == 1) {
+				return true;
+			} else {
+				return false;
+			}
+		}catch(SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+			return false;
+		}
+	}
 }
