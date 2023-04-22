@@ -140,39 +140,39 @@ public class RoomRegistration {
 					// insert data
 					if(isRoomValid) {
 						
-//						boolean save = sqlquery.insertData("hostel", hostelData);
-//						String hostelId = sqlquery.getId("hostel");
-//						System.out.println("Hostel ID => "+hostelId);
-//						
-//						for(int k=0;k<count;k++) {
-//							String roomNo = txtRoomArray.get(k).getText();
-//							String price = txtPriceArray.get(k).getText();
-//							
-//							String[] room = {roomNo, price, hostelId}; // ["Room No", "Price", "HostelID"]
-//							roomList[k] = room;  
-//						}
-//						
-//						if(save) {
-//						// ["Room No", "Price", "HostelID"]
-//						// String[][] == new 
-//						// [
-//						// 	["Room No", "Price", "HostelID"],
-//						//  ["Room No", "Price", "HostelID"],
-//						//  ["Room No", "Price", "HostelID"]
-//						// ]
-//						
-//						System.out.println("Room List => "+Arrays.toString(roomList));
-//						for(String[] data: roomList) {
-//							sqlquery.insertData("room",data);
-//						}
-//						JOptionPane.showMessageDialog(null, "Successfully Saved Room data");
-//						
-//						// clean text box
-//						for(int k=0;k<count;k++) {
-//							txtRoomArray.get(k).setText("");
-//							txtPriceArray.get(k).setText("");
-//						}						
-//					}
+						boolean save = sqlquery.insertData("hostel", hostelData);
+						String hostelId = sqlquery.getId("hostel");
+						System.out.println("Hostel ID => "+hostelId);
+						
+						for(int k=0;k<count;k++) {
+							String roomNo = txtRoomArray.get(k).getText();
+							String price = txtPriceArray.get(k).getText();
+							
+							String[] room = {roomNo, price, hostelId}; // ["Room No", "Price", "HostelID"]
+							roomList[k] = room;  
+						}
+						
+						if(save) {
+						// ["Room No", "Price", "HostelID"]
+						// String[][] == new 
+						// [
+						// 	["Room No", "Price", "HostelID"],
+						//  ["Room No", "Price", "HostelID"],
+						//  ["Room No", "Price", "HostelID"]
+						// ]
+						
+						System.out.println("Room List => "+Arrays.toString(roomList));
+						for(String[] data: roomList) {
+							sqlquery.insertData("room",data);
+						}
+						JOptionPane.showMessageDialog(null, "Successfully Saved Room data");
+						
+						// clean text box
+						for(int k=0;k<count;k++) {
+							txtRoomArray.get(k).setText("");
+							txtPriceArray.get(k).setText("");
+						}					
+					}
 				}		
 			}
 		});

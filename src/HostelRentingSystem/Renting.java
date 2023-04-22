@@ -28,6 +28,11 @@ public class Renting extends JDialog {
 	private JRadioButton rdoWave;
 	private JRadioButton rdoKbz;
 	SqlQuery sqlquery = new SqlQuery();
+	private JLabel lblSeeker;
+	private JLabel lblOwner;
+	private JLabel lblRoom;
+	private JLabel lblPrice;
+	private JRadioButton rdoCb;
 	
 	/**
 	 * Launch the application.
@@ -47,46 +52,47 @@ public class Renting extends JDialog {
 	 */
 	public Renting(String seekerName,String ownerName,String roomno,int price,String seekerPhone,String ownerPhone,String roomId) {
 		setTitle("Renting");
-		setBounds(380, 120, 600, 500);
+		setBounds(350, 50, 700, 600);
+		setResizable(false);
 		getContentPane().setLayout(null);
 		LocalDate date = LocalDate.now();
 		
 		JLabel lblNewLabel = new JLabel("Date");
 		lblNewLabel.setFont(new Font("Arial", Font.PLAIN, 15));
-		lblNewLabel.setBounds(379, 11, 44, 32);
+		lblNewLabel.setBounds(448, 11, 44, 32);
 		getContentPane().add(lblNewLabel);
 		
 		JLabel lblDate = new JLabel(date.toString());
 		lblDate.setBorder(blackline);
-		lblDate.setBounds(433, 12, 121, 32);
+		lblDate.setBounds(525, 12, 121, 32);
 		getContentPane().add(lblDate);
 		
 		JLabel lblNew_1 = new JLabel("Seeker Name");
 		lblNew_1.setFont(new Font("Arial", Font.PLAIN, 15));
-		lblNew_1.setBounds(36, 53, 102, 30);
+		lblNew_1.setBounds(67, 53, 102, 30);
 		getContentPane().add(lblNew_1);
 		
-		JLabel lblSeeker = new JLabel(seekerName);
-		lblSeeker.setBounds(237, 54, 317, 30);
+		lblSeeker = new JLabel(seekerName);
+		lblSeeker.setBounds(291, 54, 355, 30);
 		lblSeeker.setBorder(blackline);
 		getContentPane().add(lblSeeker);
 		
 		JLabel lblNew_2 = new JLabel("Owner Name");
 		lblNew_2.setFont(new Font("Arial", Font.PLAIN, 15));
-		lblNew_2.setBounds(36, 94, 102, 30);
+		lblNew_2.setBounds(67, 105, 102, 30);
 		getContentPane().add(lblNew_2);
 		
-		JLabel lblOwner = new JLabel(ownerName);
+		lblOwner = new JLabel(ownerName);
 		lblOwner.setBorder(blackline);
-		lblOwner.setBounds(237, 95, 317, 30);
+		lblOwner.setBounds(291, 106, 355, 30);
 		getContentPane().add(lblOwner);
 		
 		JLabel lblNew_6 = new JLabel("Payment Type");
 		lblNew_6.setFont(new Font("Arial", Font.PLAIN, 15));
-		lblNew_6.setBounds(36, 242, 102, 30);
+		lblNew_6.setBounds(67, 256, 102, 30);
 		getContentPane().add(lblNew_6);
 		
-		JRadioButton rdoCb = new JRadioButton("CB Pay");
+		rdoCb = new JRadioButton("CB Pay");
 		rdoCb.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(rdoCb.isSelected()) {
@@ -96,7 +102,7 @@ public class Renting extends JDialog {
 				}
 			}
 		});
-		rdoCb.setBounds(235, 247, 66, 23);
+		rdoCb.setBounds(291, 261, 66, 23);
 		getContentPane().add(rdoCb);
 		
 		rdoKbz = new JRadioButton("KBZ Pay");
@@ -109,7 +115,7 @@ public class Renting extends JDialog {
 				}
 			}
 		});
-		rdoKbz.setBounds(342, 247, 89, 23);
+		rdoKbz.setBounds(419, 261, 89, 23);
 		getContentPane().add(rdoKbz);
 		
 		rdoWave = new JRadioButton("Wave Pay");
@@ -122,48 +128,48 @@ public class Renting extends JDialog {
 				}
 			}
 		});
-		rdoWave.setBounds(455, 247, 99, 23);
+		rdoWave.setBounds(547, 261, 99, 23);
 		getContentPane().add(rdoWave);
 		
 		JLabel lblNew_5 = new JLabel("Amount");
 		lblNew_5.setFont(new Font("Arial", Font.PLAIN, 15));
-		lblNew_5.setBounds(36, 283, 102, 30);
+		lblNew_5.setBounds(67, 311, 102, 30);
 		getContentPane().add(lblNew_5);
 		
 		txtAmount = new JTextField();
-		txtAmount.setBounds(237, 283, 263, 32);
+		txtAmount.setBounds(291, 311, 301, 32);
 		getContentPane().add(txtAmount);
 		txtAmount.setColumns(10);
 		
 		JLabel lblNew_7 = new JLabel("Kyats");
 		lblNew_7.setFont(new Font("Arial", Font.PLAIN, 15));
-		lblNew_7.setBounds(510, 283, 44, 30);
+		lblNew_7.setBounds(602, 311, 44, 30);
 		getContentPane().add(lblNew_7);
 		
 		JLabel lblNew_3 = new JLabel("Start Date");
 		lblNew_3.setFont(new Font("Arial", Font.PLAIN, 15));
-		lblNew_3.setBounds(36, 325, 102, 30);
+		lblNew_3.setBounds(67, 365, 102, 30);
 		getContentPane().add(lblNew_3);
 		
 		//System.out.println("Date => "+lblDate.getText());
 		JLabel lblStart = new JLabel(myDate.getStartDate(date));
 		lblStart.setBorder(blackline);
-		lblStart.setBounds(237, 326, 317, 30);
+		lblStart.setBounds(291, 366, 355, 30);
 		getContentPane().add(lblStart);
 		
 		JLabel lblNew_4 = new JLabel("End Date");
 		lblNew_4.setFont(new Font("Arial", Font.PLAIN, 15));
-		lblNew_4.setBounds(36, 367, 102, 30);
+		lblNew_4.setBounds(67, 420, 102, 30);
 		getContentPane().add(lblNew_4);
 		
 		JLabel lblEnd = new JLabel(myDate.getEndDate(lblStart.getText()));
 		lblEnd.setBorder(blackline);
-		lblEnd.setBounds(237, 367, 317, 30);
+		lblEnd.setBounds(291, 421, 355, 30);
 		getContentPane().add(lblEnd);
 		
-		JLabel lblPrice = new JLabel(price+"");
+		lblPrice = new JLabel(price+"");
 		lblPrice.setBorder(blackline);
-		lblPrice.setBounds(237, 197, 317, 30);
+		lblPrice.setBounds(291, 216, 355, 30);
 		getContentPane().add(lblPrice);
 		
 		JButton btnConfirm = new JButton("Confirm");
@@ -215,7 +221,7 @@ public class Renting extends JDialog {
 									// TODO Auto-generated catch block
 									e1.printStackTrace();
 								}
-								
+								clear();
 							}
 							System.out.println("ID => "+seekerId+rentId+"Room=>"+roomId+paymentId+ownerId);
 							
@@ -224,7 +230,7 @@ public class Renting extends JDialog {
 				}
 			}
 		});
-		btnConfirm.setBounds(287, 418, 99, 32);
+		btnConfirm.setBounds(419, 488, 99, 45);
 		getContentPane().add(btnConfirm);
 		
 		JButton btnClose = new JButton("Close");
@@ -238,23 +244,34 @@ public class Renting extends JDialog {
 				}
 			}
 		});
-		btnClose.setBounds(178, 418, 99, 32);
+		btnClose.setBounds(209, 488, 99, 45);
 		getContentPane().add(btnClose);
 		
 		JLabel lblNew_2_1 = new JLabel("Room No");
 		lblNew_2_1.setFont(new Font("Arial", Font.PLAIN, 15));
-		lblNew_2_1.setBounds(36, 145, 102, 30);
+		lblNew_2_1.setBounds(67, 158, 102, 30);
 		getContentPane().add(lblNew_2_1);
 		
 		JLabel lblNew_2_1_1 = new JLabel("Price");
 		lblNew_2_1_1.setFont(new Font("Arial", Font.PLAIN, 15));
-		lblNew_2_1_1.setBounds(36, 196, 102, 30);
+		lblNew_2_1_1.setBounds(67, 215, 102, 30);
 		getContentPane().add(lblNew_2_1_1);
 		
-		JLabel lblRoom = new JLabel(roomno);
+		lblRoom = new JLabel(roomno);
 		lblRoom.setBorder(blackline);
-		lblRoom.setBounds(237, 144, 317, 30);
+		lblRoom.setBounds(291, 159, 355, 30);
 		getContentPane().add(lblRoom);
 		
+	}
+	
+	public void clear() {
+		lblSeeker.setText("");
+		lblOwner.setText("");
+		lblRoom.setText("");
+		lblPrice.setText("");
+		rdoCb.setSelected(false);
+		rdoKbz.setSelected(false);
+		rdoWave.setSelected(false);
+		txtAmount.setText("");		
 	}
 }

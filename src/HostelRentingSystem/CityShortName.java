@@ -74,7 +74,7 @@ public class CityShortName {
 	    list3.add("THATANA");
 	    map.put(3, list3);
 	    
-	    ArrayList<String>list4=new ArrayList<String>();
+	    ArrayList<String> list4=new ArrayList<String>();
 	    list4.add("---Select---"); 
 	    list4.add("KAKHANA");
 	    list4.add("KAPALA");
@@ -91,7 +91,7 @@ public class CityShortName {
 	    list4.add("HAKHANA");
 	    map.put(4, list4);
 	    
-	    ArrayList<String>list5=new ArrayList<String>();
+	    ArrayList<String> list5=new ArrayList<String>();
 	    list5.add("---Select---"); 
 	    list5.add("KANANA");
 	    list5.add("KABALA");
@@ -141,7 +141,7 @@ public class CityShortName {
 	    list5.add("AHYATA");	    
 	    map.put(5, list5);
 	    
-	    ArrayList<String>list6=new ArrayList<String>();
+	    ArrayList<String> list6=new ArrayList<String>();
 	    list6.add("---Select---"); 
 	    list6.add("KASANA");
 	    list6.add("KAYAYA");
@@ -164,7 +164,7 @@ public class CityShortName {
 	    list6.add("THARAKHA");
 	    map.put(6, list6);
 	    
-	    ArrayList<String>list7=new ArrayList<String>();
+	    ArrayList<String> list7=new ArrayList<String>();
 	    list7.add("---Select---"); 
 	    list7.add("KAKANA");
 	    list7.add("KATAKHA");
@@ -196,7 +196,7 @@ public class CityShortName {
 	    list7.add("AHPHANA");
 	    map.put(7, list7);
 	    
-	    ArrayList<String>list8=new ArrayList<String>();
+	    ArrayList<String> list8=new ArrayList<String>();
 	    list8.add("---Select---"); 
 	    list8.add("KAHTANA");
 	    list8.add("KAMANA");
@@ -227,7 +227,7 @@ public class CityShortName {
 	    list8.add("AHLANA");
 	    map.put(8, list8);
 	    
-	    ArrayList<String>list9=new ArrayList<String>();
+	    ArrayList<String> list9=new ArrayList<String>();
 	    list9.add("---Select---"); 
 	    list9.add("KASANA");
 	    list9.add("KAPATA");
@@ -274,7 +274,8 @@ public class CityShortName {
 	    list9.add("AUTATHA");
 	    map.put(9, list9);
 	    
-	    ArrayList<String>list10=new ArrayList<String>();
+	    ArrayList<String> list10=new ArrayList<String>();
+	    list10.add("---Select---"); 
 	    list10.add("KAHTANA");
 	    list10.add("KAKHAMA");
 	    list10.add("KHASANA");
@@ -291,7 +292,7 @@ public class CityShortName {
 	    list10.add("THAPHAYA");
 	    map.put(10, list10);
 	    
-	    ArrayList<String>list11=new ArrayList<String>();
+	    ArrayList<String> list11=new ArrayList<String>();
 	    list11.add("---Select---"); 
 	    list11.add("KATANA");
 	    list11.add("KATALA");
@@ -316,7 +317,7 @@ public class CityShortName {
 	    list11.add("AHMANA");
 	    map.put(11, list11);
 	    
-	    ArrayList<String>list12=new ArrayList<String>();
+	    ArrayList<String> list12=new ArrayList<String>();
 	    list12.add("---Select---"); 
 	    list12.add("KAKAKA");
 	    list12.add("KAKHAKA");
@@ -367,7 +368,7 @@ public class CityShortName {
 	    list12.add("OUKAMA");
 	    map.put(12, list12);
 	    
-	    ArrayList<String>list13=new ArrayList<String>();
+	    ArrayList<String> list13=new ArrayList<String>();
 	    list13.add("---Select---"); 
 	    list13.add("KAKANA");
 	    list13.add("KAKHANA");
@@ -456,7 +457,7 @@ public class CityShortName {
 	    list13.add("AHTANA");	    
 	    map.put(13, list13);
 	    
-	    ArrayList<String>list14=new ArrayList<String>();
+	    ArrayList<String> list14=new ArrayList<String>();
 	    list14.add("---Select---"); 
 	    list14.add("KAKAHTA");
 	    list14.add("KAKANA");

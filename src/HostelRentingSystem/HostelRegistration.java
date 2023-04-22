@@ -50,83 +50,84 @@ public class HostelRegistration extends JDialog {
 	public HostelRegistration(String userId) {
 		getContentPane().setBackground(new Color(192, 192, 192));
 		setTitle("Hostel Registration Form");
-		setBounds(380, 120, 600, 500);
+		setBounds(350, 50, 700, 600);
+		setResizable(false);
 		getContentPane().setLayout(null);
 		
 		JLabel lblNew = new JLabel("Hostel Name");
 		lblNew.setFont(new Font("Arial", Font.PLAIN, 15));
-		lblNew.setBounds(30, 28, 102, 30);
+		lblNew.setBounds(45, 36, 102, 30);
 		getContentPane().add(lblNew);
 		
 		JLabel lblBuildingNo = new JLabel("Building No:");
 		lblBuildingNo.setFont(new Font("Arial", Font.PLAIN, 15));
-		lblBuildingNo.setBounds(30, 69, 102, 30);
+		lblBuildingNo.setBounds(45, 90, 102, 30);
 		getContentPane().add(lblBuildingNo);
 		
 		JLabel lblMainRoomno = new JLabel("Main RoomNo:");
 		lblMainRoomno.setFont(new Font("Arial", Font.PLAIN, 15));
-		lblMainRoomno.setBounds(30, 110, 102, 30);
+		lblMainRoomno.setBounds(45, 147, 102, 30);
 		getContentPane().add(lblMainRoomno);
 		
 		JLabel lblSmallRoomCount = new JLabel("Small Room Count");
 		lblSmallRoomCount.setFont(new Font("Arial", Font.PLAIN, 15));
-		lblSmallRoomCount.setBounds(30, 151, 143, 30);
+		lblSmallRoomCount.setBounds(41, 205, 143, 30);
 		getContentPane().add(lblSmallRoomCount);
 		
 		JLabel lblState = new JLabel("State");
 		lblState.setFont(new Font("Arial", Font.PLAIN, 15));
-		lblState.setBounds(30, 192, 102, 30);
+		lblState.setBounds(45, 260, 102, 30);
 		getContentPane().add(lblState);
 		
 		JLabel lblCity = new JLabel("City");
 		lblCity.setFont(new Font("Arial", Font.PLAIN, 15));
-		lblCity.setBounds(30, 233, 102, 30);
+		lblCity.setBounds(45, 316, 102, 30);
 		getContentPane().add(lblCity);
 		
 		JLabel lblStreet = new JLabel("Street");
 		lblStreet.setFont(new Font("Arial", Font.PLAIN, 15));
-		lblStreet.setBounds(30, 274, 102, 30);
+		lblStreet.setBounds(45, 364, 102, 30);
 		getContentPane().add(lblStreet);
 		
 		JLabel lblGenderType = new JLabel("Gender Type");
 		lblGenderType.setFont(new Font("Arial", Font.PLAIN, 15));
-		lblGenderType.setBounds(30, 315, 102, 30);
+		lblGenderType.setBounds(45, 418, 102, 30);
 		getContentPane().add(lblGenderType);
 		
 
 		txtHostelName = new JTextField();
-		txtHostelName.setBounds(235, 28, 319, 25);
+		txtHostelName.setBounds(261, 40, 357, 37);
 		getContentPane().add(txtHostelName);
 		txtHostelName.setColumns(10);
 		
 		txtBuildingNo = new JTextField();
 		txtBuildingNo.setColumns(10);
-		txtBuildingNo.setBounds(235, 69, 319, 25);
+		txtBuildingNo.setBounds(261, 97, 357, 37);
 		getContentPane().add(txtBuildingNo);
 		
 		txtMainRoom = new JTextField();
 		txtMainRoom.setColumns(10);
-		txtMainRoom.setBounds(235, 110, 319, 25);
+		txtMainRoom.setBounds(261, 145, 357, 37);
 		getContentPane().add(txtMainRoom);
 		
 		txtRoomCount = new JTextField();
 		txtRoomCount.setColumns(10);
-		txtRoomCount.setBounds(235, 151, 319, 25);
+		txtRoomCount.setBounds(261, 198, 357, 37);
 		getContentPane().add(txtRoomCount);
 		
 		txtState = new JTextField();
 		txtState.setColumns(10);
-		txtState.setBounds(235, 198, 319, 25);
+		txtState.setBounds(261, 247, 357, 37);
 		getContentPane().add(txtState);
 		
 		txtCity = new JTextField();
 		txtCity.setColumns(10);
-		txtCity.setBounds(235, 239, 319, 25);
+		txtCity.setBounds(261, 300, 357, 37);
 		getContentPane().add(txtCity);
 		
 		txtStreet = new JTextField();
 		txtStreet.setColumns(10);
-		txtStreet.setBounds(235, 280, 319, 25);
+		txtStreet.setBounds(261, 357, 357, 37);
 		getContentPane().add(txtStreet);
 		
 		System.out.println("User ID in Hostel Registration=> " + userId);
@@ -187,16 +188,17 @@ public class HostelRegistration extends JDialog {
 					String gender = (String) cboGender.getSelectedItem();
 					new RoomRegistration(hostelName,buildingNo,roomNo,roomCount,state,city,street,gender,userId);
 					clear();
+					setVisible(false);
 				} 
 			}
 		});
-		btnNext.setBounds(184, 385, 102, 42);
+		btnNext.setBounds(212, 480, 102, 42);
 		getContentPane().add(btnNext);
 		
 		
 		cboGender = new JComboBox();
 		cboGender.setModel(new DefaultComboBoxModel(new String[] {"---Select---", "Male", "Female"}));
-		cboGender.setBounds(235, 320, 319, 25);
+		cboGender.setBounds(261, 418, 357, 37);
 		getContentPane().add(cboGender);
 		
 		JButton btnCancel = new JButton("Cancel");
@@ -205,7 +207,7 @@ public class HostelRegistration extends JDialog {
 				clear();
 			}
 		});
-		btnCancel.setBounds(326, 385, 102, 42);
+		btnCancel.setBounds(382, 480, 102, 42);
 		getContentPane().add(btnCancel);
 		
 		JButton btnClose = new JButton("Close");
@@ -216,7 +218,7 @@ public class HostelRegistration extends JDialog {
 				}
 			}
 		});
-		btnClose.setBounds(30, 385, 102, 42);
+		btnClose.setBounds(45, 480, 102, 42);
 		getContentPane().add(btnClose);
 		
 		JButton btnSkip = new JButton("Skip");
@@ -226,7 +228,7 @@ public class HostelRegistration extends JDialog {
 				owner.setVisible(true);
 			}
 		});
-		btnSkip.setBounds(451, 385, 102, 42);
+		btnSkip.setBounds(553, 480, 102, 42);
 		getContentPane().add(btnSkip);
 	}
 	

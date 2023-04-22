@@ -60,39 +60,41 @@ public class SignIn extends JDialog {
 	 */
 	public SignIn(String route,String ownername,String roomno,int price,String ownerPhone,String roomId) {
 		setTitle("Sign In");
-		setBounds(380, 120, 600, 500);
+		setBounds(400, 120, 600, 500);
 		setResizable(false);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
-		
+
 		panel = new JPanel();
-		panel.setBackground(new Color(224, 255, 255));
-		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Sign In Form", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(135, 206, 235)));
+		panel.setForeground(new Color(0, 0, 0));
+		panel.setBackground(new Color(255, 255, 255));
+		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Sign In Form", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel.setBounds(10, 11, 564, 439);
 		contentPanel.add(panel);
 		panel.setLayout(null);
 		
 		lblNewLabel = new JLabel("Phone No");
+		lblNewLabel.setForeground(new Color(0, 0, 0));
 		lblNewLabel.setFont(new Font("Arial", Font.PLAIN, 18));
-		lblNewLabel.setForeground(new Color(0, 191, 255));
-		lblNewLabel.setBounds(95, 125, 89, 23);
+		//lblNewLabel.setForeground(new Color(0, 191, 255));
+		lblNewLabel.setBounds(95, 170, 89, 23);
 		panel.add(lblNewLabel);
 		
 		lblNewLabel_1 = new JLabel("Password");
 		lblNewLabel_1.setFont(new Font("Arial", Font.PLAIN, 18));
-		lblNewLabel_1.setForeground(new Color(0, 191, 255));
-		lblNewLabel_1.setBounds(95, 173, 109, 36);
+		lblNewLabel_1.setForeground(new Color(0, 0, 0));
+		lblNewLabel_1.setBounds(95, 216, 109, 36);
 		panel.add(lblNewLabel_1);
 		
 		txtPhone = new JTextField();
-		txtPhone.setBounds(312, 114, 215, 29);
+		txtPhone.setBounds(312, 164, 215, 29);
 		panel.add(txtPhone);
 		txtPhone.setColumns(10);
 		
 		txtPass = new JPasswordField();
-		txtPass.setBounds(312, 179, 215, 29);
+		txtPass.setBounds(312, 222, 215, 29);
 		panel.add(txtPass);
 		
 		btnSingin = new JButton("Sign In");
@@ -152,13 +154,13 @@ public class SignIn extends JDialog {
 				}
 			}
 		});
-		btnSingin.setBounds(228, 266, 97, 36);
+		btnSingin.setBounds(235, 297, 97, 36);
 		panel.add(btnSingin);
 		
 		lbllogo = new JLabel("");
 		Image img=new ImageIcon(this.getClass().getResource("/logo.png")).getImage();
 		lbllogo.setIcon(new ImageIcon(img));
-		lbllogo.setBounds(242, 43, 65, 66);
+		lbllogo.setBounds(249, 48, 65, 66);
 		panel.add(lbllogo);	
 		
 	}

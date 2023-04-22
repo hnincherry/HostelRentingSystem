@@ -131,7 +131,7 @@ public class Admin extends JDialog {
         		SqlQuery sqlquery = new SqlQuery();
             	boolean update = sqlquery.updateUserStatus(userId);
             	if(update) {
-            		JOptionPane.showMessageDialog(null, "Update User Status Successfully");
+            		//JOptionPane.showMessageDialog(null, "Update User Status Successfully");
             		fillOwnerData();
             		fillSeekerData();
             	}

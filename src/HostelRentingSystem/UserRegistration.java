@@ -55,6 +55,7 @@ public class UserRegistration extends JDialog {
 	String gender,nrc;
 	private JRadioButton rdoFemale;
 	SqlQuery sqlquery = new SqlQuery();
+	private JRadioButton rdoMale;
 	
 	/**
 	 * Launch the application.
@@ -74,13 +75,14 @@ public class UserRegistration extends JDialog {
 	 */
 	public UserRegistration(String roleId) {
 		setTitle("User Registration Form");
-		setBounds(380, 120, 636, 567);
+		setBounds(350, 50, 700, 600);
+		setResizable(false);
 		getContentPane().setLayout(null);
 		//int roleId = id;
 		panel = new JPanel();
 		panel.setForeground(new Color(0, 191, 255));
 		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Sign In Form", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(135, 206, 235)));
-		panel.setBounds(10, 11, 600, 506);
+		panel.setBounds(10, 11, 664, 539);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
@@ -129,32 +131,32 @@ public class UserRegistration extends JDialog {
 		panel.add(lblStreet);
 		
 		txtName = new JTextField();
-		txtName.setBounds(194, 26, 384, 31);
+		txtName.setBounds(213, 28, 424, 31);
 		panel.add(txtName);
 		txtName.setColumns(10);
 		
 		txtPhone = new JTextField();
-		txtPhone.setBounds(194, 77, 384, 31);
+		txtPhone.setBounds(213, 79, 424, 31);
 		panel.add(txtPhone);
 		txtPhone.setColumns(10);
 		
 		txtPass = new JPasswordField();
-		txtPass.setBounds(194, 132, 384, 31);
+		txtPass.setBounds(213, 133, 424, 31);
 		panel.add(txtPass);
 		txtPass.setColumns(10);
 		
 		txtState = new JTextField();
-		txtState.setBounds(194, 241, 384, 31);
+		txtState.setBounds(213, 241, 424, 31);
 		panel.add(txtState);
 		txtState.setColumns(10);
 		
 		txtCity = new JTextField();
-		txtCity.setBounds(194, 300, 384, 31);
+		txtCity.setBounds(213, 300, 424, 31);
 		panel.add(txtCity);
 		txtCity.setColumns(10);
 		
 		txtStreet = new JTextField();
-		txtStreet.setBounds(194, 362, 384, 31);
+		txtStreet.setBounds(213, 362, 424, 31);
 		panel.add(txtStreet);
 		txtStreet.setColumns(10);
 		
@@ -165,21 +167,21 @@ public class UserRegistration extends JDialog {
 			}
 		});
 		cboCode.setModel(new DefaultComboBoxModel(new String[] {"---Select---","1/", "2/", "3/", "4/", "5/", "6/", "7/", "8/", "9/", "10/", "11/", "12/", "13/", "14/"}));
-		cboCode.setBounds(196, 188, 82, 31);
+		cboCode.setBounds(213, 188, 82, 31);
 		panel.add(cboCode);
 		
 		cboCity = new JComboBox();
 		cboCity.setModel(new DefaultComboBoxModel(new String[] {"---Select---"}));
-		cboCity.setBounds(288, 188, 95, 31);
+		cboCity.setBounds(321, 188, 95, 31);
 		panel.add(cboCity);
 		
 		cboNation = new JComboBox();
 		cboNation.setModel(new DefaultComboBoxModel(new String[] {"---Select---", "N", "E", "P"}));
-		cboNation.setBounds(393, 188, 93, 31);
+		cboNation.setBounds(439, 188, 93, 31);
 		panel.add(cboNation);
 		
 		txtNRCno = new JTextField();
-		txtNRCno.setBounds(496, 188, 82, 31);
+		txtNRCno.setBounds(542, 188, 95, 31);
 		panel.add(txtNRCno);
 		txtNRCno.setColumns(10);
 		
@@ -188,6 +190,7 @@ public class UserRegistration extends JDialog {
 		btnRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean duplicate = sqlquery.isPhonenoDuplicate(txtPhone.getText());
+				boolean duplicateNrc = sqlquery.isNrcDuplicate(cboCode.getSelectedItem().toString(),cboCity.getSelectedItem().toString(),cboNation.getSelectedItem().toString(),txtNRCno.getText());
 				
 				if(Checking.IsNull(txtName.getText()) || Checking.IsValidName(txtName.getText()))
 				{
@@ -246,11 +249,12 @@ public class UserRegistration extends JDialog {
 					JOptionPane.showMessageDialog(null, "You must enter valid NRC Code");
 					txtNRCno.requestFocus();
 					txtNRCno.selectAll();
-				} 
-				else if(duplicate)
+				} else if(duplicate)
 				{
-					JOptionPane.showMessageDialog(null, "Registration PhoneNo is already exist!!");					
-				}
+					JOptionPane.showMessageDialog(null, "Registration PhoneNo is already exist!!");	
+				} else if(duplicateNrc) {
+					JOptionPane.showMessageDialog(null, "Registration NRC is already exist!!");	
+				} 
 				else {
 					String code,city,nation,number;
 					code = (String) cboCode.getSelectedItem();
@@ -270,11 +274,15 @@ public class UserRegistration extends JDialog {
 					userData[7] = roleId;
 					userData[8] = "pending";
 					userData[9] = gender;//gender
+					
+					
 					boolean save = sqlquery.insertData("user", userData);
 					if(save) {
-						JOptionPane.showMessageDialog(null, "User Data Save Successfully");
+						JOptionPane.showMessageDialog(null, "Thank You for Registration. Admin will approve account in a few day!!!");
 						clear();
 					}
+					
+					
 				}
 				
 			}
@@ -283,7 +291,7 @@ public class UserRegistration extends JDialog {
 				return null;
 			}
 		});
-		btnRegister.setBounds(223, 459, 97, 36);
+		btnRegister.setBounds(305, 472, 97, 36);
 		panel.add(btnRegister);
 		
 		btnCancel = new JButton("Cancel");
@@ -293,7 +301,7 @@ public class UserRegistration extends JDialog {
 				
 			}
 		});
-		btnCancel.setBounds(49, 459, 97, 36);
+		btnCancel.setBounds(108, 472, 97, 36);
 		panel.add(btnCancel);
 		
 		btnClose = new JButton("Close");
@@ -305,7 +313,7 @@ public class UserRegistration extends JDialog {
 				}
 			}
 		});
-		btnClose.setBounds(380, 459, 89, 36);
+		btnClose.setBounds(495, 472, 89, 36);
 		panel.add(btnClose);
 		
 		JLabel lblGender = new JLabel("Gender:");
@@ -314,7 +322,7 @@ public class UserRegistration extends JDialog {
 		lblGender.setBounds(22, 413, 82, 14);
 		panel.add(lblGender);
 		
-		JRadioButton rdoMale = new JRadioButton("Male");
+		rdoMale = new JRadioButton("Male");
 		rdoMale.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(rdoMale.isSelected()) {
@@ -323,7 +331,7 @@ public class UserRegistration extends JDialog {
 				}
 			}
 		});
-		rdoMale.setBounds(194, 410, 82, 23);
+		rdoMale.setBounds(258, 410, 82, 23);
 		panel.add(rdoMale);
 		
 		rdoFemale = new JRadioButton("Female");
@@ -335,7 +343,7 @@ public class UserRegistration extends JDialog {
 				}
 			}
 		});
-		rdoFemale.setBounds(380, 410, 82, 23);
+		rdoFemale.setBounds(464, 410, 82, 23);
 		panel.add(rdoFemale);
 		
 		
@@ -513,5 +521,7 @@ public class UserRegistration extends JDialog {
 		txtCity.setText("");
 		txtStreet.setText("");
 		txtName.requestFocus();
+		rdoMale.setSelected(false);
+		rdoFemale.setSelected(false);
 	}
 }

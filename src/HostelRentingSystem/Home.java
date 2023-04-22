@@ -39,6 +39,7 @@ public class Home extends JFrame {
 	DefaultListModel<Hostel> listModel;
 	JScrollPane scrollPane;
 	ArrayList<Hostel> hostelArrList;
+	private JButton btnR;
 	
 	/**
 	 * Launch the application.
@@ -63,7 +64,7 @@ public class Home extends JFrame {
 	public Home() {
 		setTitle("Hostel Renting System");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(380, 120, 600, 500);
+		setBounds(350, 50, 700, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -80,8 +81,8 @@ public class Home extends JFrame {
 	    		if(!e.getValueIsAdjusting()) {
 	    			JList<Hostel> list = (JList<Hostel>) e.getSource();
 	    			int selectedIndex = list.getSelectedIndex();
-	    			System.out.println("selectedIndex => " + selectedIndex);
-	    			System.out.println("hostelArrList.size() => " +  hostelArrList.size());
+	    			//System.out.println("selectedIndex => " + selectedIndex);
+	    			//System.out.println("hostelArrList.size() => " +  hostelArrList.size());
 	    			if(selectedIndex < hostelArrList.size() && selectedIndex >= 0) {
 	    				Hostel selectedHostel = hostelArrList.get(selectedIndex);
 	    				hostelName = selectedHostel.getHostelName();
@@ -105,8 +106,8 @@ public class Home extends JFrame {
 	    });
 	    
 		scrollPane = new JScrollPane(hostelList);
-		scrollPane.setBounds(10, 45, 564, 405);
-		add(scrollPane);
+		scrollPane.setBounds(10, 45, 664, 505);
+		getContentPane().add(scrollPane);
  
 		ArrayList<String[]> strQuery = sqlquery.getHostelData();
 		bindListView(strQuery);
@@ -114,7 +115,7 @@ public class Home extends JFrame {
 		ImageIcon icon = new ImageIcon(getClass().getResource("/search-icon.png"));
 		
 		comboBox = new JComboBox();
-		comboBox.setBounds(10, 7, 319, 27);
+		comboBox.setBounds(10, 7, 322, 27);
 		contentPane.add(comboBox);
  
 		JButton btnSearch = new JButton(new ImageIcon((icon.getImage()).getScaledInstance(27, 25, java.awt.Image.SCALE_SMOOTH)));
@@ -131,7 +132,7 @@ public class Home extends JFrame {
 				
 			}
 		});
-		btnSearch.setBounds(327, 7, 35, 27);
+		btnSearch.setBounds(334, 7, 35, 27);
 		contentPane.add(btnSearch);
  
 		JButton btnSignin = new JButton("Sign In");
@@ -141,7 +142,7 @@ public class Home extends JFrame {
 				signin.setVisible(true);
 			}
 		});
-		btnSignin.setBounds(390, 8, 87, 25);
+		btnSignin.setBounds(490, 9, 87, 25);
 		contentPane.add(btnSignin);
  
 		JButton btnSignup = new JButton("Sign Up");
@@ -151,8 +152,20 @@ public class Home extends JFrame {
 				type.setVisible(true);
 			}
 		});
-		btnSignup.setBounds(487, 8, 87, 25);
+		btnSignup.setBounds(578, 9, 87, 25);
 		contentPane.add(btnSignup);
+		
+		btnR = new JButton("Refresh");
+		btnR.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ArrayList<String[]> strQuery = sqlquery.getHostelData();
+				bindListView(strQuery);
+				comboBox.removeAllItems();
+				fillAddress();
+			}
+		});
+		btnR.setBounds(402, 9, 87, 25);
+		contentPane.add(btnR);
 				
 		fillAddress();
 	}

@@ -45,38 +45,38 @@ public class HostelDetail extends JDialog {
 		System.out.println("Data => "+hostelName+roomno+address+genderType+price+ownerName+ownerPhone);
 		getContentPane().setBackground(new Color(192, 192, 192));
 		setTitle("Hostel Detail Form");
-		setBounds(380, 120, 600, 500);
+		setBounds(350, 50, 700, 600);
 		setResizable(false);
 		getContentPane().setLayout(null);
 		
 		JLabel lblNew = new JLabel("Owner Name");
 		lblNew.setFont(new Font("Arial", Font.PLAIN, 15));
-		lblNew.setBounds(30, 72, 102, 30);
+		lblNew.setBounds(43, 90, 102, 30);
 		getContentPane().add(lblNew);
 		
 		JLabel lblNew_1 = new JLabel("Owner PhoneNo");
 		lblNew_1.setFont(new Font("Arial", Font.PLAIN, 15));
-		lblNew_1.setBounds(30, 113, 143, 30);
+		lblNew_1.setBounds(43, 157, 143, 30);
 		getContentPane().add(lblNew_1);
 		
 		JLabel lblNew_2 = new JLabel("Room No");
 		lblNew_2.setFont(new Font("Arial", Font.PLAIN, 15));
-		lblNew_2.setBounds(30, 165, 102, 30);
+		lblNew_2.setBounds(43, 214, 102, 30);
 		getContentPane().add(lblNew_2);
 		
 		JLabel lblNew_3 = new JLabel("Price");
 		lblNew_3.setFont(new Font("Arial", Font.PLAIN, 15));
-		lblNew_3.setBounds(30, 218, 143, 30);
+		lblNew_3.setBounds(43, 276, 143, 30);
 		getContentPane().add(lblNew_3);
 		
 		JLabel lblNew_4 = new JLabel("Address");
 		lblNew_4.setFont(new Font("Arial", Font.PLAIN, 15));
-		lblNew_4.setBounds(30, 270, 102, 30);
+		lblNew_4.setBounds(43, 344, 102, 30);
 		getContentPane().add(lblNew_4);
 		
 		JLabel lblGenderType = new JLabel("Gender Type");
 		lblGenderType.setFont(new Font("Arial", Font.PLAIN, 15));
-		lblGenderType.setBounds(30, 315, 102, 30);
+		lblGenderType.setBounds(43, 412, 102, 30);
 		getContentPane().add(lblGenderType);
 		
 		JButton btnRent = new JButton("Rent");
@@ -87,7 +87,7 @@ public class HostelDetail extends JDialog {
 				setVisible(false);
 			}
 		});
-		btnRent.setBounds(256, 385, 102, 42);
+		btnRent.setBounds(408, 488, 102, 42);
 		getContentPane().add(btnRent);
 		
 		JButton btnClose = new JButton("Close");
@@ -98,47 +98,47 @@ public class HostelDetail extends JDialog {
 				}
 			}
 		});
-		btnClose.setBounds(154, 385, 102, 42);
+		btnClose.setBounds(165, 488, 102, 42);
 		getContentPane().add(btnClose);
 		
 		JLabel lblOwnerName = new JLabel(ownerName);
-		lblOwnerName.setBounds(237, 72, 317, 30);
+		lblOwnerName.setBounds(280, 91, 357, 30);
 		lblOwnerName.setBorder(blackline);
 		getContentPane().add(lblOwnerName);
 		
 		JLabel lblPhoneNo = new JLabel(ownerPhone);
 		lblPhoneNo.setBorder(blackline);
-		lblPhoneNo.setBounds(237, 113, 317, 30);
+		lblPhoneNo.setBounds(280, 150, 357, 37);
 		getContentPane().add(lblPhoneNo);
 		
 		JLabel lblRoomNo = new JLabel(roomno);
 		lblRoomNo.setBorder(blackline);
-		lblRoomNo.setBounds(237, 165, 317, 30);
+		lblRoomNo.setBounds(280, 215, 357, 30);
 		getContentPane().add(lblRoomNo);
 		
 		JLabel lblPrice = new JLabel(price+"");
 		lblPrice.setBorder(blackline);
-		lblPrice.setBounds(237, 218, 317, 30);
+		lblPrice.setBounds(280, 275, 357, 35);
 		getContentPane().add(lblPrice);
 		
 		JLabel lblAddress = new JLabel(address);
 		lblAddress.setBorder(blackline);
-		lblAddress.setBounds(237, 270, 317, 30);
+		lblAddress.setBounds(280, 339, 357, 42);
 		getContentPane().add(lblAddress);
 		
 		JLabel lblGender = new JLabel(genderType);
 		lblGender.setBorder(blackline);
-		lblGender.setBounds(235, 315, 319, 30);
+		lblGender.setBounds(280, 413, 357, 30);
 		getContentPane().add(lblGender);
 		
 		JLabel lblHostelName = new JLabel(hostelName);
 		lblHostelName.setBorder(blackline);
-		lblHostelName.setBounds(237, 24, 317, 30);
+		lblHostelName.setBounds(280, 35, 357, 30);
 		getContentPane().add(lblHostelName);
 		
 		JLabel lblHostelName_1 = new JLabel("Hostel Name");
 		lblHostelName_1.setFont(new Font("Arial", Font.PLAIN, 15));
-		lblHostelName_1.setBounds(30, 24, 102, 30);
+		lblHostelName_1.setBounds(43, 34, 102, 30);
 		getContentPane().add(lblHostelName_1);
 	}
 }

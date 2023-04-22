@@ -72,6 +72,27 @@ public class SqlQuery {
 		}
 	}
 	
+	//Check NRC Duplicate
+	public boolean isNrcDuplicate(String code,String city,String nation,String nrcno) {
+		
+		String nrc = code + city + "(" + nation + ")" + nrcno;
+		System.out.println("NRC => "+nrc);
+		query = "select * from user where nrc='"+nrc+"'"; 
+		try {
+			ste = con.createStatement();
+			rs = ste.executeQuery(query);
+			if(rs.next()) {
+				return true;
+			} else {
+				return false;
+			}
+		}catch(SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(),"SQL Exception",JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+			return false;
+		}
+	}
+		
 	//Get RoomNo for Duplicate
 	public boolean isDuplicateRoomno(String[] data) {
 		query = "select count(roomno) from hostel where state='"+data[0]+"' and city='"+data[1]+"' and street='"+data[2]+"' and buildingno='"+data[3]+"' and roomno='"+data[4]+"'";
@@ -339,6 +360,22 @@ public class SqlQuery {
 		}		
 	}
 	
+	//Update Room Price 
+		public boolean updatePrice(String price,String roomid) {
+			try {
+				ste = con.createStatement();
+				query = "update room set price='"+price+"'where roomid='"+roomid+"'";
+				if(ste.executeUpdate(query) == 1) {
+					return true;
+				} else {
+					return false;
+				}
+			}catch(SQLException e) {
+				JOptionPane.showMessageDialog(null, e.getMessage());
+				return false;
+			}
+		}
+		
 	//Get OwnerName 
 	public String[] getOwnerData(String userId) {
 		try {
@@ -403,6 +440,30 @@ public class SqlQuery {
 		}catch(SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 			return false;
+		}
+	}
+	
+	//Get user hostel list according to userid	
+	public String[] getuserhostel(String userid) {
+		try {
+			String[] userhostel = new String[8];
+			ste = con.createStatement();
+			query = "select hostelname,buildingno,roomno,smroomno,state,city,street,price,startdate,enddate  from renting,rentingdetail,room,hostel where renting.rentid=rentingdetail.rentid and rentingdetail.roomid=room.roomid and room.hostelid=hostel.hostelid and renting.userid='"+userid+"'";
+			rs = ste.executeQuery(query);
+			while(rs.next()) {
+				userhostel[0] = rs.getString(1);//hostelname
+				userhostel[1] = rs.getString(2);//buildingno
+				userhostel[2] = rs.getString(3);//roomno
+				userhostel[3] = rs.getString(4);//smroomno
+				userhostel[4] = rs.getString(5)+"/" + rs.getString(6)+"/"+rs.getString(7);//street/city/state
+				userhostel[5] = rs.getString(8);//price
+				userhostel[6] = rs.getString(9);//startdate
+				userhostel[7] = rs.getString(10);//enddate
+			}
+			return userhostel;
+		}catch(SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+			return null;
 		}
 	}
 }
