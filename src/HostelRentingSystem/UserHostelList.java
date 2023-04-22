@@ -37,20 +37,6 @@ public class UserHostelList extends JDialog {
 	List<String[]> userHostelList = new ArrayList<>();
 	
 	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		try {
-//			UserHostelList dialog = new UserHostelList();
-//			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-//			dialog.setVisible(true);
-//			dialog..setResizable(false);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
-
-	/**
 	 * Create the dialog.
 	 * @throws SQLException 
 	 */

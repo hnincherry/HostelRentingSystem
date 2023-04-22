@@ -59,17 +59,8 @@ public class RoomRegistration {
     		lblNewLabel_1.setFont(new Font("Arial", Font.PLAIN, 12));
     		panel.add(lblNewLabel_1);
     		
-    		//txtPrice = new JTextField();
     		panel.add(txtPriceArray.get(i));
         }
-    		
-//        JButton btnCancel = new JButton("Cancel");
-//        btnCancel.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				//clear();
-//			}
-//		});
-//        panel.add(btnCancel);
         
 		JButton btnConfirm = new JButton("Confirm");
 		btnConfirm.addActionListener(new ActionListener() {
@@ -178,18 +169,7 @@ public class RoomRegistration {
 		});
 		
         panel.add(btnConfirm);
-        
-//        JButton btnClose = new JButton("Close");
-//        btnClose.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				if(JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?","Confirm Existing",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-//					//dispose();
-//				}
-//			}
-//		});
-//        panel.add(btnClose);
-        
-		//frame.getContentPane().add(btnConfirm, BorderLayout.SOUTH);
+       
         frame.getContentPane().add(panel);
         frame.setResizable(false);
         frame.setBounds(380, 180, 550, 500);

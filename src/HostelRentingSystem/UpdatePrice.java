@@ -18,19 +18,6 @@ import javax.swing.JTextField;
 public class UpdatePrice extends JDialog {
 	SqlQuery sqlquery = new SqlQuery();
 	private JTextField txtPrice;
-	
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		try {
-//			CustomDialog dialog = new CustomDialog();
-//			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-//			dialog.setVisible(true);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
 
 	/**
 	 * Create the dialog.

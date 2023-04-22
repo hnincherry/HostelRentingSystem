@@ -19,19 +19,6 @@ import java.awt.event.ActionEvent;
 public class Seeker extends JDialog {
 	Border blackline=BorderFactory.createLineBorder(Color.black);
 	SqlQuery sqlquery = new SqlQuery();
-	
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		try {
-//			Seeker dialog = new Seeker();
-//			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-//			dialog.setVisible(true);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
 
 	/**
 	 * Create the dialog.

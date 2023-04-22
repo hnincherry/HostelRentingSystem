@@ -56,19 +56,6 @@ public class UserRegistration extends JDialog {
 	private JRadioButton rdoFemale;
 	SqlQuery sqlquery = new SqlQuery();
 	private JRadioButton rdoMale;
-	
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		try {
-//			UserRegistration dialog = new UserRegistration();
-//			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-//			dialog.setVisible(true);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
 
 	/**
 	 * Create the dialog.
@@ -280,9 +267,7 @@ public class UserRegistration extends JDialog {
 					if(save) {
 						JOptionPane.showMessageDialog(null, "Thank You for Registration. Admin will approve account in a few day!!!");
 						clear();
-					}
-					
-					
+					}				
 				}
 				
 			}

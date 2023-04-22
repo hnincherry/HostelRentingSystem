@@ -26,19 +26,6 @@ public class HostelDetail extends JDialog {
 	Border blackline=BorderFactory.createLineBorder(Color.black);
 
 	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		try {
-//			HostelDetail dialog = new HostelDetail();
-//			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-//			dialog.setVisible(true);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public HostelDetail(String hostelName,String roomno,String address,String genderType,int price,String ownerName,String ownerPhone,String roomId) {

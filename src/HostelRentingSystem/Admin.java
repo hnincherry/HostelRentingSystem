@@ -193,9 +193,7 @@ public class Admin extends JDialog {
 				ownerData[4] = rs.getString(10);//Status
 				ownerData[5] = rs.getString(1);//UserId
 				ownerTableRowList.add(ownerData);
-//				tblOwnerModel.addRow(ownerData);
 			}
-//			tblOwner.setModel(tblOwnerModel);
 			bindOwnerTableData(ownerTableRowList);
 		}catch(SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
@@ -226,10 +224,8 @@ public class Admin extends JDialog {
 				seekerData[4] = rs.getString(10);//Status
 				seekerData[5] = rs.getString(1);//UserId
 				seekerTableRowList.add(seekerData);
-				//tblSeekerModel.addRow(seekerData);
 				bindSeekerTableData(seekerTableRowList);
 			}
-			//tblSeeker.setModel(tblSeekerModel);
 		}catch(SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}

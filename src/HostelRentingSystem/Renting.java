@@ -33,19 +33,6 @@ public class Renting extends JDialog {
 	private JLabel lblRoom;
 	private JLabel lblPrice;
 	private JRadioButton rdoCb;
-	
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		try {
-//			Renting dialog = new Renting("Aye Aye","U Hla");
-//			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-//			dialog.setVisible(true);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
 
 	/**
 	 * Create the dialog.
@@ -238,9 +225,6 @@ public class Renting extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				if(JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?","Confirm Existing",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
 					dispose();
-//					String password = sqlquery.getPassword(seekerPhone);
-//					Seeker seeker = new Seeker(seekerPhone,password);
-//					seeker.setVisible(true);
 				}
 			}
 		});

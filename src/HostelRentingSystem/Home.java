@@ -93,9 +93,7 @@ public class Home extends JFrame {
 		    			ownerName = selectedHostel.getOwnerName();
 		    			ownerPhone = selectedHostel.getOwnerPhone();
 		    			roomId = selectedHostel.getRoomId();
-		    			
-		    			//System.out.println("Selected Hostel => "+hostelName+"/"+roomno+"/"+address+"/"+price);
-		    			//System.out.println("Selected Index => "+selectedIndex+"\nSelected Value => "+selectedHostel);
+		    		
 		    			HostelDetail detail = new HostelDetail(hostelName,roomno,address,genderType,price,ownerName,ownerPhone,roomId);
 		    			detail.setVisible(true);
 	    			}
@@ -205,12 +203,6 @@ public class Home extends JFrame {
 		for(Hostel hostelData : hostelArrList) {
 			listModel.addElement(hostelData);
 		}
-	    
-	    
-	    System.out.println("listModel => " + listModel);
-	    
-	    System.out.println("hostelList => " + hostelList);
-	    
 	}
 }
 

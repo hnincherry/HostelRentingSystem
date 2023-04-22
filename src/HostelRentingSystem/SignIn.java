@@ -33,27 +33,6 @@ public class SignIn extends JDialog {
 	private JPanel panel;
 	SqlQuery sqlquery = new SqlQuery();
 	String[] queryData = new String[3];
-	
-	/**
-	 * Launch the application.
-	
-	private void JButton1ActionPerformed(java.awt.event.ActionEvent evt)
-	{
-		((javax.swing.border.TitledBorder)panel.getBorder()).setTitleFont(new Font("Arial",Font.ITALIC,20));
-		panel.repaint();
-	}
-	 * 
-	 */
-//	public static void main(String[] args) {
-//		try {
-//			SignIn dialog = new SignIn();
-//			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-//			dialog.setVisible(true);
-//			dialog.setResizable(false);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
 
 	/**
 	 * Create the dialog.

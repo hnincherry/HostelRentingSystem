@@ -26,19 +26,6 @@ public class Reversion extends JDialog {
 	String payment;
 	SqlQuery sqlquery = new SqlQuery();
 	static int count = 0;
-	
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		try {
-//			Reservation dialog = new Reservation();
-//			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-//			dialog.setVisible(true);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
 
 	/**
 	 * Create the dialog.
