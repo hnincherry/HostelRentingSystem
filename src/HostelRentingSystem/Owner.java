@@ -242,7 +242,7 @@ public class Owner extends JDialog {
 		String[] rentData = new String[10];		
 		try {
 			Statement ste = con.createStatement();
-			String query = "select hostelname,hostel.state,hostel.city,hostel.street,hostel.buildingno,hostel.roomno,room.smroomno,user.username,user.phoneno,room.price from renting,rentingdetail,user,room,hostel where room.hostelid=hostel.hostelid and rentingdetail.roomid=room.roomid and renting.rentid=rentingdetail.rentid and renting.userid=user.userid and rentingdetail.userid="+ownerId+"";
+			String query = "select hostelname,hostel.state,hostel.city,hostel.street,hostel.buildingno,hostel.roomno,room.smroomno,user.username,user.phoneno,room.price from renting,rentingdetail,user,room,hostel where room.hostelid=hostel.hostelid and rentingdetail.roomid=room.roomid and renting.rentid=rentingdetail.rentid and renting.userid=user.userid and room.available=false and rentingdetail.userid="+ownerId+"";
 			ResultSet rs = ste.executeQuery(query);
 			while(rs.next()) {
 				rentData[0] = rs.getString(1);// hostelname
@@ -318,7 +318,9 @@ public class Owner extends JDialog {
 
 	    if(option == JOptionPane.OK_OPTION) {
 	       String price = textField.getText();
-	       if(Checking.IsNull(price) || !Checking.IsAllDigit(price)) {
+	       if(Checking.IsNull(price) || !Checking.IsAllDigit(price) || Integer.parseInt(price) == 0) {
+	    	   JOptionPane.showMessageDialog(null, "Please enter valid Price!!!");
+	       } else {
 	    	   sqlquery.updatePrice(price,roomId);
 		       fillFreeData(userId);
 	       }

@@ -162,10 +162,11 @@ public class RoomRegistration {
 						for(int k=0;k<count;k++) {
 							txtRoomArray.get(k).setText("");
 							txtPriceArray.get(k).setText("");
-						}					
+						}
+						frame.setVisible(false);
 					}
 				}	
-				frame.setVisible(false);
+				
 			}
 		});
 		
