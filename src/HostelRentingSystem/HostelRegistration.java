@@ -175,7 +175,7 @@ public class HostelRegistration extends JDialog {
 					String gender = (String) cboGender.getSelectedItem();
 					new RoomRegistration(hostelName,buildingNo,roomNo,roomCount,state,city,street,gender,userId);
 					clear();
-					setVisible(false);
+					//setVisible(false);
 				} 
 			}
 		});

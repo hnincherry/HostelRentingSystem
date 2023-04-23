@@ -16,6 +16,8 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -38,6 +40,7 @@ public class Owner extends JDialog {
 	Connection con = null;
 	SqlQuery sqlquery = new SqlQuery();
 	List<String[]> freeDataList = new ArrayList<>();
+	List<String[]> allDataList = new ArrayList<>();
 	
     public Owner(String userId) {
         setTitle("Owner Panel");
@@ -88,8 +91,6 @@ public class Owner extends JDialog {
         	@Override
         	public void mouseClicked(MouseEvent e) {
         		int row = tblFree.getSelectedRow();
-//        		CustomDialog custom = new CustomDialog(tblFree.getValueAt(row, 6).toString(),userId,freeDataList.get(row)[9]);
-//        		custom.setVisible(true);
         		Object[] options = {"Update", "Delete"};
                 int result = JOptionPane.showOptionDialog(null, "What do you want to proceed?", "Confirmation Dialog!!",
                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
@@ -102,13 +103,27 @@ public class Owner extends JDialog {
                 } else if (result == JOptionPane.NO_OPTION) {
                 	System.out.println("You click Delete");
                 	if(JOptionPane.showConfirmDialog(null, "Are you sure you want to delete small room?","Confirm Deleting",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-    					sqlquery.deleteRoom(tblFree.getValueAt(row, 6).toString());	
+                		String smroomno = tblFree.getValueAt(row, 6).toString();
+                		String hostelid = freeDataList.get(row)[10];
+                		
+    					sqlquery.deleteRoom(smroomno,hostelid);	
     					fillFreeData(userId);
     				}
                 }
         	}
         });
         scrollPane_3.setViewportView(tblFree);
+        
+        tabbedPane.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+               int index = tabbedPane.getSelectedIndex();
+               //System.out.println("Tab changed to index " + index);
+               
+               if(index == 0) {
+            	   fillHostelData(userId);
+               }
+            }
+         });
         
         getContentPane().add(tabbedPane);
 
@@ -122,7 +137,6 @@ public class Owner extends JDialog {
         fillHostelData(userId);
         fillRentData(userId);
         fillFreeData(userId);
-        
     }
 
     public void createAllTable() {
@@ -200,13 +214,14 @@ public class Owner extends JDialog {
 		tc.setPreferredWidth(width);
 	}
     
-	public void fillHostelData(String ownerId) {		
-		String[] hostelData = new String[9];		
+	public void fillHostelData(String ownerId) {
+		allDataList.clear();	
 		try {
 			Statement ste = con.createStatement();
 			String query = "select * from hostel where userid='"+ownerId+"'";
 			ResultSet rs = ste.executeQuery(query);
 			while(rs.next()) {
+				String[] hostelData = new String[9];	
 				hostelData[0] = rs.getString(2);//hostelName
 				hostelData[1] = rs.getString(3);//Building No
 				hostelData[2] = rs.getString(4);//Room No
@@ -215,9 +230,9 @@ public class Owner extends JDialog {
 				hostelData[5] = rs.getString(8);//Street
 				hostelData[6] = rs.getString(10);//Gender Type
 				hostelData[7] = rs.getString(5);//Small Room Count
-				tblAllModel.addRow(hostelData);
+				allDataList.add(hostelData);
 			}
-			tblHostel.setModel(tblAllModel);
+			bindAllTableData(allDataList);
 		}catch(SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
@@ -252,10 +267,10 @@ public class Owner extends JDialog {
 		freeDataList.clear();
 		try {
 			Statement ste = con.createStatement();
-			String query = "select hostelname,hostel.state,hostel.city,hostel.street,hostel.buildingno,hostel.roomno,room.smroomno,hostel.gendertype,room.price,room.roomid from user,room,hostel where room.hostelid=hostel.hostelid and hostel.userid=user.userid and room.available=true and hostel.userid="+ownerId+"";
+			String query = "select hostelname,hostel.state,hostel.city,hostel.street,hostel.buildingno,hostel.roomno,room.smroomno,hostel.gendertype,room.price,room.roomid,room.hostelid from user,room,hostel where room.hostelid=hostel.hostelid and hostel.userid=user.userid and room.available=true and hostel.userid="+ownerId+"";
 			ResultSet rs = ste.executeQuery(query);
 			while(rs.next()) {
-				String[] freeData = new String[10];		
+				String[] freeData = new String[11];		
 				freeData[0] = rs.getString(1);// hostelname
 				freeData[1] = rs.getString(2);// state
 				freeData[2] = rs.getString(3);// city
@@ -266,6 +281,7 @@ public class Owner extends JDialog {
 				freeData[7] = rs.getString(8);//gender type	
 				freeData[8] = rs.getString(9);// price
 				freeData[9] = rs.getString(10);// roomId
+				freeData[10] = rs.getString(11);// hostelid
 				freeDataList.add(freeData);
 			}
 			bindFreeTableData(freeDataList);
@@ -284,6 +300,15 @@ public class Owner extends JDialog {
 		tblFree.setModel(tblFreeModel);
 	}
 	
+	private void bindAllTableData(List<String[]> allDataList) {
+		tblAllModel.setRowCount(0);
+		// TODO Auto-generated method stub
+		for(String[] data: allDataList) {
+			tblAllModel.addRow(data);
+		}
+		tblHostel.setModel(tblAllModel);
+	}
+	
 	public void updatePrice(String roomId,String userId) {
 		JTextField textField = new JTextField(10);
 	    JLabel label = new JLabel("Enter Price:");
@@ -293,8 +318,11 @@ public class Owner extends JDialog {
 
 	    if(option == JOptionPane.OK_OPTION) {
 	       String price = textField.getText();
-	       sqlquery.updatePrice(price,roomId);
-	       fillFreeData(userId);
+	       if(Checking.IsNull(price) || !Checking.IsAllDigit(price)) {
+	    	   sqlquery.updatePrice(price,roomId);
+		       fillFreeData(userId);
+	       }
+	       
 	    }
 	}
 }

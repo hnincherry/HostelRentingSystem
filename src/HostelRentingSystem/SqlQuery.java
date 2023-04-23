@@ -428,11 +428,30 @@ public class SqlQuery {
 		}
 
 	//Delete Small Room No 
-	public boolean deleteRoom(String smallroomno) {
+	public boolean deleteRoom(String smallroomno,String hostelid) {
+		String deleteHostel = hostelid;
 		try {
+			int count;
 			ste = con.createStatement();
 			query = "delete from room where smroomno='"+smallroomno+"'";
 			if(ste.executeUpdate(query) == 1) {
+				queryUpdate = "select count(hostelid) from room where hostelid='"+hostelid+"'";
+				rs = ste.executeQuery(queryUpdate);
+				rs.next();
+				count = rs.getInt(1);
+				if(count == 0) {
+					String queryDelete = "delete from hostel where hostelid='"+deleteHostel+"'";
+					if(ste.executeUpdate(queryDelete) == 1) {
+						System.out.println("Delete HostelId");					
+					}
+					//System.out.println("Delete HostelId");	
+				} else {
+					String updateCount = "update hostel set smroomcount="+count+" where hostelid="+deleteHostel+"";
+					if(ste.executeUpdate(updateCount) == 1) {
+						System.out.println("Update Small Room Count");	
+					} 
+				}
+				System.out.println("Count HostelId => "+count);
 				return true;
 			} else {
 				return false;
