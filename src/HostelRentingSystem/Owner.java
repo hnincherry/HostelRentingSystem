@@ -21,6 +21,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -28,14 +30,14 @@ public class Owner extends JDialog {
 	private JTable tblHostel;
 	private JTable tblBook;
 	private JTable tblRent;
-	private static JTable tblFree;
+	private JTable tblFree;
 	DefaultTableModel tblAllModel = new DefaultTableModel();
 	DefaultTableModel tblRentModel = new DefaultTableModel();
-	static DefaultTableModel tblFreeModel = new DefaultTableModel();
+	DefaultTableModel tblFreeModel = new DefaultTableModel();
 	DBConnection connect = new DBConnection();
-	static Connection con = null;
+	Connection con = null;
 	SqlQuery sqlquery = new SqlQuery();
-	static List<String[]> freeDataList = new ArrayList<>();
+	List<String[]> freeDataList = new ArrayList<>();
 	
     public Owner(String userId) {
         setTitle("Owner Panel");
@@ -86,8 +88,24 @@ public class Owner extends JDialog {
         	@Override
         	public void mouseClicked(MouseEvent e) {
         		int row = tblFree.getSelectedRow();
-        		CustomDialog custom = new CustomDialog(tblFree.getValueAt(row, 6).toString(),userId,freeDataList.get(row)[9]);
-        		custom.setVisible(true);
+//        		CustomDialog custom = new CustomDialog(tblFree.getValueAt(row, 6).toString(),userId,freeDataList.get(row)[9]);
+//        		custom.setVisible(true);
+        		Object[] options = {"Update", "Delete"};
+                int result = JOptionPane.showOptionDialog(null, "What do you want to proceed?", "Confirmation Dialog!!",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
+                if (result == JOptionPane.YES_OPTION) {
+                	String roomId = freeDataList.get(row)[9];
+                	
+                	updatePrice(roomId,userId);
+                	System.out.println("You click Update");
+                } else if (result == JOptionPane.NO_OPTION) {
+                	System.out.println("You click Delete");
+                	if(JOptionPane.showConfirmDialog(null, "Are you sure you want to delete small room?","Confirm Deleting",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+    					sqlquery.deleteRoom(tblFree.getValueAt(row, 6).toString());	
+    					fillFreeData(userId);
+    				}
+                }
         	}
         });
         scrollPane_3.setViewportView(tblFree);
@@ -108,6 +126,7 @@ public class Owner extends JDialog {
     }
 
     public void createAllTable() {
+    	System.out.println("All Table");
     	tblAllModel.addColumn("Hostel Name");
     	tblAllModel.addColumn("Building No:");
     	tblAllModel.addColumn("Room No:");
@@ -128,6 +147,7 @@ public class Owner extends JDialog {
 	}
     
     public void createRentTable() {
+    	System.out.println("Rent Table");
     	tblRentModel.addColumn("Hostel Name");
     	tblRentModel.addColumn("State");
     	tblRentModel.addColumn("City");
@@ -152,6 +172,7 @@ public class Owner extends JDialog {
 	}
     
     public void createFreeTable() {
+    	System.out.println("Free Table");
     	tblFreeModel.addColumn("Hostel Name");
     	tblFreeModel.addColumn("State");
     	tblFreeModel.addColumn("City");
@@ -227,7 +248,7 @@ public class Owner extends JDialog {
 		}
 	}
 	
-	public static void fillFreeData(String ownerId) {	
+	public void fillFreeData(String ownerId) {	
 		freeDataList.clear();
 		try {
 			Statement ste = con.createStatement();
@@ -254,12 +275,26 @@ public class Owner extends JDialog {
 		}
 	}
 
-	private static void bindFreeTableData(List<String[]> freeDataList) {
+	private void bindFreeTableData(List<String[]> freeDataList) {
 		tblFreeModel.setRowCount(0);
 		// TODO Auto-generated method stub
 		for(String[] data: freeDataList) {
 			tblFreeModel.addRow(data);
 		}
 		tblFree.setModel(tblFreeModel);
+	}
+	
+	public void updatePrice(String roomId,String userId) {
+		JTextField textField = new JTextField(10);
+	    JLabel label = new JLabel("Enter Price:");
+	    Object[] obj = {label, textField};
+
+	    int option = JOptionPane.showConfirmDialog(null, obj, "Update Price", JOptionPane.OK_CANCEL_OPTION);
+
+	    if(option == JOptionPane.OK_OPTION) {
+	       String price = textField.getText();
+	       sqlquery.updatePrice(price,roomId);
+	       fillFreeData(userId);
+	    }
 	}
 }

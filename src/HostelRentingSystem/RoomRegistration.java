@@ -164,7 +164,8 @@ public class RoomRegistration {
 							txtPriceArray.get(k).setText("");
 						}					
 					}
-				}		
+				}	
+				frame.setVisible(false);
 			}
 		});
 		
